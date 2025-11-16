@@ -1,0 +1,42 @@
+nav.table-of-contents {
+    background: #f5f4f3; /* Light gray background */
+    padding: 15px;
+    border-left: 5px solid #94acbf; /* Accent border */
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 40px auto; /* Center it below the article */
+}
+
+@media print {
+    nav.table-of-contents {
+        display: none;
+    }
+}
+
+nav.table-of-contents ul li {
+    margin-left: 1em;
+    display: block; /* Makes the entire link a block for proper text alignment */
+    text-indent: -1em; /* Pull the first line back */
+    padding-left: 1em; /* Offset so second line aligns correctly */
+}
+
+nav.table-of-contents ul {
+    list-style: none;
+    padding:0;
+    line-height: 1.7;
+}
+
+nav.table-of-contents h3 {
+    font-size: 120%;
+    color: #326750;
+    margin-top: 5px;
+    padding-top: 0em;
+    margin-bottom: 10px;
+}
+
+span.q-toc-section {
+    color: #326750;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}

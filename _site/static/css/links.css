@@ -1,0 +1,146 @@
+a {
+    text-decoration: none;
+    color: #326750;
+    font-weight: bold;
+    transition: background 0.1s ease-in-out, text-decoration 0.1s ease-in-out; /* Smooth transition */
+    padding: 2px 5px; /* Add extra padding for larger highlight */
+    margin: -2px -5px; /* Counteracts padding to prevent size shift */
+}
+
+a:hover {
+    color: #1e4636; /* Darker green */
+    background: rgba(50, 103, 80, 0.1); /* Subtle highlight on hover */
+    border-radius: 5px;
+}
+
+
+main.writeup dl.clickable-dl {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+dl.clickable-dl dt {
+    color: #326750;
+    font-size: 120%;
+}
+
+/* dl.clickable-dl dd { */
+/*     display: flex; */
+/*     flex-direction: row; */
+/* } */
+
+dl.clickable-dl a {
+    /* display: block;     /\* Makes the entire <a> behave like a block *\/ */
+    display: flex; /* Ensures the icon and text align horizontally */
+    align-items: center; /* Centers items vertically */
+    text-decoration: none !important; /* Overrides global link styles */
+    color: inherit !important; /* Prevents it from inheriting link color */
+    font-weight: inherit !important; /* Ensures it doesn’t inherit bold styles */
+    font-size: inherit !important;   /* Keeps the default text size */
+    background: transparent;    /* Avoids any unwanted backgrounds */
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.2s ease-in-out;
+    margin-left: -4em;
+}
+
+dl.clickable-dl a:hover {
+    /* background: #faf4e8; */ /* cream */
+    /* background:rgba(250, 244, 232, 0.8); /\* with transparency *\/ */
+    background: rgba(50, 103, 80, 0.1); /* Subtle highlight on hover */
+}
+
+/* Reset any other common link styles */
+dl.clickable-dl a:visited,
+dl.clickable-dl a:focus,
+dl.clickable-dl a:active {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Icon Styling */
+dl.clickable-dl .icon {
+    flex-shrink: 0; /* Prevents the icon from resizing */
+    font-size: 1.5em; /* Adjust size as needed */
+    margin-right: 10px; /* Space between icon and text */
+    width: 6em;
+    text-align: center;
+}
+
+dl.clickable-dl .icon img {
+    height: 4em;
+}
+
+@media screen and (width < 550px){
+    dl.clickable-dl .icon {
+        display: none;
+    }
+    dl.clickable-dl a {
+        margin-left: inherit;
+    }
+}
+
+/* Ensures text is properly aligned */
+dl.clickable-dl .text {
+    flex-grow: 1;
+}
+
+
+span.logo a {
+    padding: inherit !important;
+    margin: inherit !important;
+}
+
+
+/* "follow me" links (->) */
+
+a.follow-me::after {
+    content: " →";
+    display: inline-block;
+    margin-left: 0.3em;
+    transition: transform 0.2s ease-in-out; /* smooth hover effect */
+}
+
+/* External links (open in new tab) */
+a.follow-me.external::after {
+    content: " ↗";
+}
+
+a.follow-me:hover::after {
+    transform: translateX(3px); /* moves arrow slightly on hover */
+}
+
+
+
+/* Make the entire DD clickable */
+.full-dd-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    font-weight: inherit;
+    padding: 1em;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer; /* Makes it obvious it's clickable */
+}
+
+/* Hover effect to make it clear it's a button */
+.full-dd-link:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* Subtle background change */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+
+/* Optional: Add a small right arrow to reinforce interactivity */
+.full-dd-link::after {
+    content: "\00a0→"; /* Same as the follow-me style */
+    font-weight: normal;
+    display: inline-block;
+    margin-left: 0.3em;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Slight movement when hovering */
+.full-dd-link:hover::after {
+    transform: translateX(3px);
+}

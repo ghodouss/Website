@@ -1,0 +1,220 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Charis+SIL:wght@400;700&display=swap'); */
+
+.slope-plot-page {
+    width: 602px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.slope-plot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* or center */
+    gap: 0.0em;
+}
+
+div.slope-plot-target {
+    /* set the immediate parent of the SVG to 100% of its parent */
+    /* this is needed for dynamic sizing (--plot-width: 0) to work */
+    width: 100%;                /* DO NOT CHANGE */
+}
+
+div.slope-plot-container button.slope-plot-download {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: 0.0em;
+
+    color: #555;
+    font-size: 0.85em;
+    font-family: inherit;
+    text-decoration: none;
+    cursor: pointer;
+
+    align-self: flex-start; /* if you're using flex layout */
+}
+
+.slope-plot-download:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+svg.slope-plot {
+    font-size: 11px;
+
+    min-height: 100px;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #faf4e8;
+
+    /* all sizes in px */
+    --plot-width:   600;  /* width of the plot in px */
+    --label-width:  150;  /* max label width */
+    --popup-width:  275;  /* popup width for long labels */
+    --label-padding:  4;  /* between label and line */
+    --label-margin:  20;  /* between label and canvas edge */
+    --top-margin:    50;  /* between title and plot */
+    --bottom-margin: 15;  /* between tick label and plot */
+    --padding:       10;  /* top and bottom padding */
+    --line-height:  1.5;  /* not in px; multiple of font-size */
+}
+
+svg.slope-plot .entry-group .line {
+    stroke-width: 2;
+    stroke-linecap: round;
+    transition: stroke-width 0.1s ease-in-out;
+}
+
+svg.slope-plot .entry-group .label {
+    dominant-baseline: middle;
+}
+
+svg.slope-plot .entry-group.highlight .line {
+    stroke-width: 5;
+}
+
+svg.slope-plot .entry-group.highlight .label {
+    font-weight: bold;
+    text-shadow: #FC0 1px 0 10px;
+    transition: text-shadow 0.1s ease-in-out;
+}
+
+
+svg.slope-plot .label-left {
+    text-anchor: end;
+}
+svg.slope-plot .label-right {
+    text-anchor: start;
+}
+svg.slope-plot .title {
+    font-size: 24px;
+    font-weight: bold;
+    font-shape: italic;
+    text-anchor: middle;
+}
+svg.slope-plot .tick {
+    font-size: 14px;
+    font-weight: bold;
+    text-anchor: middle;
+    dominant-baseline: top;
+}
+svg.slope-plot .watermark {
+    font-size: 10px;
+    fill: #777;
+}
+
+svg.slope-plot .label-popup-group {
+    pointer-events: none;
+}
+
+svg.slope-plot .label-popup-bg {
+    fill: #fdfbf7;
+    stroke: #ccc;
+    rx: 4px;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+svg.slope-plot .label-popup-text {
+    font-size: 110%;
+}
+
+svg.slope-plot .label-popup-group {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out;
+}
+
+svg.slope-plot .label-popup-group.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* small version of the plot */
+
+div.small-plots svg.slope-plot {
+    font-size: 9px;
+    --plot-width: 400;
+    --label-width: 90;
+    --popup-width: 180;
+    --label-padding: 3;
+    --label-margin: 12;
+    --top-margin: 30;
+    --bottom-margin: 10;
+    --padding: 6;
+}
+
+div.small-plots svg.slope-plot .title {
+    font-size: 14px;
+}
+
+div.small-plots svg.slope-plot .tick {
+    font-size: 11px;
+}
+
+div.small-plots svg.slope-plot .watermark {
+    font-size: 9px;
+}
+
+/* tiny version */
+
+div.tiny-plots svg.slope-plot {
+    font-size: 8px;
+    --plot-width: 300;
+    --label-width: 70;
+    --popup-width: 145;
+    --label-padding: 2;
+    --label-margin: 10;
+    --top-margin: 20;
+    --bottom-margin: 8;
+    --padding: 4;
+}
+
+div.tiny-plots svg.slope-plot .title {
+    font-size: 12px;
+}
+
+div.tiny-plots svg.slope-plot .tick {
+    font-size: 10px;
+}
+
+div.tiny-plots svg.slope-plot .watermark {
+    font-size: 8px;
+}
+
+/* mobile */
+
+@media screen and (max-width: 550px) {
+    svg.slope-plot {
+        font-size: 9px;
+        --plot-width: 0; /* special flag for dynamic width */
+        --label-width: 90;
+        --popup-width: 200;
+        --label-padding: 3;
+        --label-margin: 12;
+        --top-margin: 30;
+        --bottom-margin: 10;
+        --padding: 6;
+    }
+
+    svg.slope-plot .title {
+        font-size: 16px;
+    }
+
+    svg.slope-plot .tick {
+        font-size: 10px;
+    }
+
+    svg.slope-plot .watermark {
+        font-size: 9px;
+    }
+}
+
+div.full-screen svg.slope-plot {
+    --plot-width: 0;
+    --label-width: 300;
+}
+

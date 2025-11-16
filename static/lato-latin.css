@@ -1,0 +1,478 @@
+/* -----------------------------------------------------------------------------
+   Font subsetting strategy
+
+   This file declares each weight/style twice under the SAME family name:
+   1) a tiny Latin+punctuation subset (@font-face with unicode-range=…)
+   2) the full face (no unicode-range) as a transparent fallback
+
+   How it works:
+   - The browser loads only the tiny WOFF2 for common text.
+   - If a page needs a codepoint outside the subset, it automatically fetches
+     the matching full face for that weight/style—no visual jump in metrics.
+   - Kerning/ligatures are preserved (we didn’t strip layout features).
+   - We serve WOFF2 with font-display: swap for fast first paint.
+
+   Payload impact (potential, with all faces available):
+   - Lato Latin (18 faces): ~245 KB tiny vs ~788 KB full → 543 KB saved (69%)
+   - 13,600 bytes / face vs 43,800
+   - typically load 5 faces: 68 KB vs 219 KB  → 151 KB saved (69%)
+
+
+   Actual page cost is typically lower (only used weights/styles download), but
+   this setup substantially reduces worst-case payload while remaining seamless.
+------------------------------------------------------------------------------- */
+
+/* to check glyph coverage, run in the browser console */
+
+
+/* (function () { */
+/*     const allowed = [ */
+/*         0x000A,[0x0020,0x007E],0x00A0,0x00A7,0x00A9,0x00AC,0x00AD,0x00AE,0x00B0,0x00B1,0x00B7,0x00D7,0x2010,0x2013,0x2014,0x2018,0x2019,0x201C,0x201D,0x2022,0x2026,0x2039,0x203A,0x2122,0x2212 */
+/*     ]; */
+/*     const inAllowed = cp => allowed.some(a => Array.isArray(a) ? (cp>=a[0] && cp<=a[1]) : cp===a); */
+/*     const body = document.querySelector('body'); */
+/*     const text = body ? body.innerText : ""; */
+/*     const bad = []; */
+/*     for (const ch of text) { */
+/*         const cp = ch.codePointAt(0); */
+/*         if (!inAllowed(cp)) bad.push([ch, "U+"+cp.toString(16).toUpperCase()]); */
+/*     } */
+/*     console.table(bad); */
+/* })(); */
+
+/* Glyph names: ['.notdef', */
+/* 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', */
+
+/* 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',  */
+
+/* 'zero', 'one', 'two', 'three', four', 'five', 'six', 'seven', 'eight', 'nine',  */
+
+/* 'plus', 'plusminus', 'minus', 'multiply', 'equal', 'greater', 'less', 'logicalnot', */
+
+/* 'emdash', 'endash', 'hyphen', */
+
+/* 'ellipsis',  */
+
+/* 'quotedbl', 'quotedblleft', 'quotedblright', 'quoteleft', 'quoteright', 'quotesinglbase', 'quotesingle', -- 'quotesinglbase' U+201A not needed */
+
+/* 'guilsinglleft', 'guilsinglright', - breadcrumb links */
+
+/* 'ampersand', 'asterisk', 'at', 'backslash',  */
+
+/* 'bar', 'braceleft', 'braceright', 'bracketleft', 'bracketright', 'parenleft', 'parenright', 'numbersign',  */
+
+/* 'bullet', 'periodcentered',  */
+
+/* 'asciicircum', 'asciitilde', 'grave',   */
+
+/* 'copyright', 'degree', 'registered', 'section', 'trademark',  */
+
+/* 'colon', 'comma', 'dollar', 'exclam', 'percent', 'period', 'question',  'semicolon', 'slash', 'space', 'underscore', */
+
+/* 'uniFB00', 'uniFB01', 'uniFB02', 'uniFB03', 'uniFB04', */
+
+/* ''glyph00058', 'glyph00059', 'glyph00061', 'glyph00062', 'glyph00081', 'glyph00082', 'glyph00083', 'glyph00084', 'glyph00087', 'glyph00088', 'glyph00119', 'glyph00121', 'glyph00122', 'glyph00123', 'glyph00125', 'glyph00279', 'glyph00429', 'glyph00437', ] */
+
+/* elisp code to generate the CSS definitions:*/
+
+/* (defun lato/make-face (weight name italic) */
+/*   (let ((fname (if italic */
+/*                    (if (string= name "Regular") */
+/*                        "Italic" */
+/*                        (format "%sItalic" name)) */
+/*                  name)) */
+/*         (shape (if italic "italic" "normal"))) */
+/*    (format " */
+/* /\* -------------------------------------------------------------------------- *\/ */
+/* /\* %s *\/ */
+
+/* @font-face { */
+/*     font-family: 'Lato Latin'; */
+/*     font-style: %s; */
+/*     font-weight: %d; */
+/*     font-display: swap; */
+/*     src: url('../fonts/lato-latin/LatoLatin-%s.woff2') format('woff2'); */
+/* } */
+/* @font-face { */
+/*     font-family: 'Lato Latin'; */
+/*     font-style: %s; */
+/*     font-weight: %d; */
+/*     font-display: swap; */
+/*     unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212; */
+/*     src: url('../fonts/lato-tiny/LatoTiny-%s.woff2') format('woff2'); */
+/* } */
+/* " */
+/*            fname */
+/*            shape weight fname */
+/*            shape weight fname))) */
+
+/* (let ((weights '((100 . "Hairline") */
+/*                  (200 . "Thin") */
+/*                  (300 . "Light") */
+/*                  (400 . "Regular") */
+/*                  (500 . "Medium") */
+/*                  (600 . "Semibold") */
+/*                  (700 . "Bold") */
+/*                  (800 . "Heavy") */
+/*                  (900 . "Black")))) */
+
+/*   (insert "\n\n") */
+/*   (--each weights */
+/*     (let ((weight (car it)) */
+/*           (name (cdr it))) */
+
+/*       (insert (lato/make-face weight name nil)) */
+/*       (insert (lato/make-face weight name t)) */
+/*       (insert "\n")))) */
+
+
+/* -------------------------------------------------------------------------- */
+/* Hairline */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Hairline.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Hairline.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* HairlineItalic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 100;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-HairlineItalic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 100;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-HairlineItalic.woff2') format('woff2');
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Thin */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Thin.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Thin.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* ThinItalic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 200;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-ThinItalic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 200;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-ThinItalic.woff2') format('woff2');
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Light */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Light.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Light.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* LightItalic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 300;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-LightItalic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 300;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-LightItalic.woff2') format('woff2');
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Regular */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Regular.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Regular.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* Italic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Italic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Italic.woff2') format('woff2');
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Medium */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Medium.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Medium.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* MediumItalic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-MediumItalic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-MediumItalic.woff2') format('woff2');
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Semibold */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Semibold.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Semibold.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* SemiboldItalic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-SemiboldItalic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-SemiboldItalic.woff2') format('woff2');
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Bold */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Bold.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+
+    src: url('fonts/lato-tiny/LatoTiny-Bold.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* BoldItalic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-BoldItalic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-BoldItalic.woff2') format('woff2');
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Heavy */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Heavy.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Heavy.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* HeavyItalic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 800;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-HeavyItalic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 800;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-HeavyItalic.woff2') format('woff2');
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* Black */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-Black.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-Black.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* BlackItalic */
+
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 900;
+    font-display: swap;
+    src: url('fonts/lato-latin/LatoLatin-BlackItalic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Lato Latin';
+    font-style: italic;
+    font-weight: 900;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A0,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2010,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/lato-tiny/LatoTiny-BlackItalic.woff2') format('woff2');
+}

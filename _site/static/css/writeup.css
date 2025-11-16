@@ -1,0 +1,287 @@
+/* "dummy" div takes up the full page and enable scrolling.  serves as
+   a "container" for the writeup column.  expands to show all content
+   when printing */
+div.writeup-container {
+    display: block;
+
+    height: 100%;
+    width: 100%;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+html {
+  scroll-padding-top: 4rem;
+}
+
+@media print {
+    div.writeup-container {
+        overflow: visible;
+        height: auto;
+    }
+}
+
+
+/* single-column text for long-format "writeups" */
+main.writeup {
+    display: block;
+
+    width: 800px; /* = 50rem; */
+    max-width: 80%;
+
+    /* center text using margin: auto */
+    margin-left: auto;
+    margin-right: auto;
+
+    /* space at top and bottom */
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 5rem;
+    padding-bottom: 8rem;
+
+    font-size: 14pt;
+
+    /* background-color:#eeffee; */
+}
+
+/* decrease text size when printing */
+@media print {
+    main.writeup {
+        font-size: 11pt;
+    }
+}
+
+/* decrease text and margin on iphone */
+@media screen and (width < 550px){
+    main.writeup {
+        font-size: 11pt;
+        max-width: 90%;
+    }
+}
+
+
+main.writeup p.tagline {
+    font-size: 140%;
+
+    font-weight: bold;
+    font-style: italic;
+
+    text-align: center;
+
+    padding-left:1.5em;
+    padding-right: 1.5em;
+
+    padding-bottom: 1em;
+}
+
+main.writeup p.abstract {
+    font-size: 110%;
+    padding-left:1.5em;
+    padding-right: 1.5em;
+    padding-bottom: 1em;
+}
+
+main.writeup p {
+    /* expand line-height for easier reading */
+    line-height: 1.4;
+}
+
+main.writeup h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 4em;
+}
+
+main.writeup h1:first-of-type {
+    margin-top: 0;
+}
+
+
+main.writeup h2 {
+    margin-top: 2em;
+}
+
+main.writeup a.note {
+    position: relative;
+    top: -0.5em;
+    font-size: 70%;
+}
+
+main.writeup span.equation {
+    display: block;
+    margin-left: 12.5%;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+main.writeup h2 {
+    font-style: italic;
+}
+
+
+
+/* images */
+main.writeup .full-column-img {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+
+    margin-top: 4em;
+    margin-bottom: 4em;
+}
+
+main.writeup div.screenshot{
+    width:125%;
+    margin-left:-12.5%;
+}
+
+
+
+main.writeup blockquote.citation {
+    position: relative;
+    /* background: #fafafa; */
+}
+
+main.writeup blockquote.citation:before {
+    position: absolute;
+    /* content: open-quote; */
+    content: "\201C";
+    font-size: 2em;
+    margin-left: -0.6em;
+    margin-top: -0.2em;
+}
+main.writeup blockquote.citation:after {
+    position: absolute;
+    /* content: close-quote; */
+    content: "\201D";
+    font-size: 2em;
+    bottom: 0;
+    right: 0;
+    margin-right: -0.3em;
+    margin-bottom: -0.4em;
+}
+
+
+main.writeup dl {
+    /* expand line-height for easier reading */
+    line-height: 1.4;
+}
+
+main.writeup dl dt {
+    font-weight: bold;
+    float: left;
+    margin-right: 0.5em;
+}
+
+main.writeup dl dt::after {
+    content: ":";
+}
+
+main.writeup dl dd {
+    margin-left: 0em;
+    margin-bottom: 1em;
+}
+
+main.writeup div.centered {
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    display: flex;
+    justify-content: center;
+}
+
+main.writeup div.centered-logo {
+    display: flex;
+    justify-content: center;
+}
+
+main.writeup div.headshot {
+    /* centered, on its own */
+    /* display: flex; */
+    /* justify-content: center; */
+
+    /* text wraps around it */
+    float: left;
+    margin-right: 1.5em;
+}
+
+/* decrease text and margin on iphone */
+@media screen and (width < 550px){
+    main.writeup div.headshot {
+        float: none;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+
+main.writeup div.headshot img {
+    width: 15em;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+
+main.writeup#legal table {
+    width: 100%;
+    border-collapse: collapse;
+    line-height:1.7;
+}
+
+main.writeup#legal table th,
+main.writeup#legal table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+main.writeup#legal table th {
+    background-color: #f4f4f4;
+    text-align: left;
+}
+
+main.writeup#legal ul li:not(:last-child),
+main.writeup#legal ol li:not(:last-child) {
+    margin-bottom: 0.5em;
+}
+
+
+
+main.writeup p.highlight {
+    font-size: 120%;
+    /* color: #326750; */
+
+    font-weight: bold;
+    font-style: italic;
+
+    text-align: center;
+
+    padding-left:2.5em;
+    padding-right:2.5em;
+}
+
+main.writeup p.takeaway {
+    font-size: 120%;
+
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+
+    background: #f5f4f3;
+    padding: 15px;
+    border-left: 5px solid #326750; /* Accent border */
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 40px auto; /* Center it below the article */
+
+}
+
+
+/* Hanging indent for multi-line links */
+main.writeup dl.hang {
+    /* indent 1st row by 1em; continuing rows by 2em */
+    margin-left: 2em;
+}
+
+main.writeup dl.hang dt {
+    margin-left: -1em; /* Offset so second line aligns correctly */
+}

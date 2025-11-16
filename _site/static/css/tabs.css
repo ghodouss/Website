@@ -1,0 +1,178 @@
+/* NOTE: all of these apply only to the .tabs.screen-view class.
+   (i.e. `class = "tabs screen-view"`).  .tabs.print-view renders as a
+   normal DL element. */
+
+/* styling for the entire DL element */
+article dl.tabs.screen-view {
+    margin-left: 1em;
+    margin-right: 1em;
+
+    border-radius: 8px; /* Slight rounding for smoothness */
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* tab container at the top lists tabs */
+article dl.tabs.screen-view div.tab-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; /* default: No wrapping on large screens */
+    align-items: stretch;
+    justify-content: space-between;
+
+    border-bottom: 2px solid #ccc;
+    background-color: #f0e4d0; /* #f5efe3; */
+    color: #4a3d35;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* individual tab (dt) elements */
+article dl.tabs.screen-view dt {
+    flex: 1 1 auto; /* allow shrinking but maintain equal spacing */
+    min-height: 100%;  /* "be at least as tall as the tallest sibling" */
+
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+
+    margin: 0;
+
+    text-align: center;
+    font-size: 90%;
+    cursor: pointer;
+
+    border-bottom: 2px solid transparent;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Hover effect */
+article dl.tabs.screen-view dt:hover {
+    background-color: #e7d8c4; /* #e8dfd0; */
+}
+
+/* highlight and underline the active tab */
+article dl.tabs.screen-view dt.active {
+    border-bottom: 2px solid #a67c52;
+    background-color: #e1d3b8; /* #dbc4a6; */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* remove the ":" automatically added to DT elements */
+article dl.tabs.screen-view dt::after {
+    content: "";
+}
+
+/* on smaller screens, allow tabs to wrap in the tab container, but
+   still shrink them */
+@media (max-width: 550px) {
+    article dl.tabs.screen-view div.tab-container {
+        flex-wrap: wrap; /* allow wrapping on smaller screens */
+    }
+
+    article dl.tabs.screen-view dt {
+        flex: 1 1 30%;   /* each tab can take up to 30% of the row */
+        min-width: 80px; /* ensure they don’t shrink too much */
+        max-width: none; /* allow them to use available space */
+        font-size: 80%;
+    }
+}
+
+
+/* container for tab content (dd) elements */
+article dl.tabs.screen-view div.tab-content-container {
+    position: relative;
+    width: 100%;
+
+    min-height: 4em; /* default height */
+    /* NB: height is dynamically set by javascript function `adjustTabHeight` */
+
+    transition: height 0.3s ease-in-out; /* Smooth height transition */
+}
+
+/* default: Hide inactive content but keep it in layout */
+article dl.tabs.screen-view div.tab-content-container dd {
+    position: absolute; /* keeps it out of layout but measurable */
+    visibility: hidden; /* makes it invisible but still measurable */
+
+    height: auto; /* allow height calculation */
+    /* NB: height is overwritten by javascript function `adjustTabHeight` */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;        /* vertical alignment */
+    gap: 1em;                   /* space between items */
+
+    background-color: #faf4e8;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+
+    margin: 0;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    transition: height 0.3s ease-in-out; /* smooth height transition */
+}
+
+
+/* active tab content: make visible and position normally */
+article dl.tabs.screen-view div.tab-content-container dd.active {
+    position: static;
+    visibility: visible;
+}
+
+/* Image styling */
+article dl.tabs.screen-view div.tab-content-container dd .tab-image {
+    width: 50%; /* image takes up to 30% of the container width */
+    height: auto;   /* maintain aspect ratio */
+}
+
+/* Text should fill remaining space */
+article dl.tabs.screen-view div.tab-content-container dd .tab-text {
+    flex-grow: 1;   /* ensures text takes up the remaining space */
+}
+
+/* Mobile: Stack image above text */
+@media (max-width: 550px) {
+    article dl.tabs.screen-view div.tab-content-container dd {
+        flex-direction: column; /* Stack image above text */
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    article dl.tabs.screen-view div.tab-content-container dd .tab-image {
+        max-width: 100%; /* Allow image to scale full width if needed */
+        width: 100%;
+    }
+
+    article dl.tabs.screen-view div.tab-content-container dd .tab-text {
+        flex-grow: 0;   /* ensures text takes up the remaining space */
+    }
+}
+
+/* Smallest screens: Hide images if necessary */
+@media (max-width: 300px) {
+    article dl.tabs.screen-view div.tab-content-container dd .tab-image {
+        display: none; /* Hide images on very small screens */
+    }
+}
+
+/* in the layout, we include the DL twice: once with the class
+   .screen-view and once with the class .print-view.  we use media
+   queries to make sure only one shows at a time. */
+
+/* default: Show screen version, hide print version */
+article dl.tabs.print-view { display: none; }
+article dl.tabs.screen-view { display: block; }
+
+/* when printing, show the print version and hide the tabs */
+@media print {
+    article dl.tabs.screen-view { display: none !important; }
+    article dl.tabs.print-view { display: block !important; }
+}

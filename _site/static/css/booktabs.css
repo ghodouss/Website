@@ -1,0 +1,39 @@
+/* "booktabs" */
+table.booktabs {
+    border-collapse: collapse;
+    width: 100%;
+    line-height:1.7;
+}
+
+table.booktabs tr.toprule {
+    border-bottom: 2pt solid black;
+}
+
+table.booktabs tr.midrule {
+    border-bottom: 1pt solid black;
+}
+
+table.booktabs tr.bottomrule {
+    border-bottom: 1.5pt solid black;
+}
+
+table.booktabs th {
+    font-weight:bold;
+}
+
+
+/* "paralist" */
+ul.inparaitem {
+    list-style: none;
+    display: inline;
+    margin-left: 0em;
+    padding-left: 0em;
+}
+
+ul.inparaitem li {
+    display: inline;
+}
+
+ul.inparaitem li:before {
+    content: "• "
+}

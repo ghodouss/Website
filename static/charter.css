@@ -1,0 +1,148 @@
+/* -----------------------------------------------------------------------------
+   Font subsetting strategy
+
+   This file declares each weight/style twice under the SAME family name:
+   1) a tiny Latin+punctuation subset (@font-face with unicode-range=…)
+   2) the full face (no unicode-range) as a transparent fallback
+
+   How it works:
+   - The browser loads only the tiny WOFF2 for common text.
+   - If a page needs a codepoint outside the subset, it automatically fetches
+     the matching full face for that weight/style—no visual jump in metrics.
+   - Kerning/ligatures are preserved (we didn’t strip layout features).
+   - We serve WOFF2 with font-display: swap for fast first paint.
+
+   Payload impact (potential, with all faces available):
+   - Bitstream Charter (4 faces): 45,592 bytes vs 61,160 bytes: 16kb saved = 25%
+
+   Actual page cost is typically lower (only used weights/styles download), but
+   this setup substantially reduces worst-case payload while remaining seamless.
+------------------------------------------------------------------------------- */
+
+/* to check glyph coverage, run in the browser console */
+
+/* (function () { */
+/*     const allowed = [ */
+/*         0x000A,[0x0020,0x007E],0x00A0,0x00A7,0x00A9,0x00AC,0x00AD,0x00AE,0x00B0,0x00B1,0x00B7,0x00D7,0x2010,0x2013,0x2014,0x2018,0x2019,0x201C,0x201D,0x2022,0x2026,0x2039,0x203A,0x2122,0x2212 */
+/*     ]; */
+/*     const inAllowed = cp => allowed.some(a => Array.isArray(a) ? (cp>=a[0] && cp<=a[1]) : cp===a); */
+/*     const body = document.querySelector('body'); */
+/*     const text = body ? body.innerText : ""; */
+/*     const bad = []; */
+/*     for (const ch of text) { */
+/*         const cp = ch.codePointAt(0); */
+/*         if (!inAllowed(cp)) bad.push([ch, "U+"+cp.toString(16).toUpperCase()]); */
+/*     } */
+/*     console.table(bad); */
+/* })(); */
+
+
+/* Missing glyphs for requested Unicodes: ['U+00AD'] */
+/* Added .notdef to subset */
+/* Closing glyph list over 'CFF ': 116 glyphs before */
+
+/* Glyph names: ['.notdef', */
+/* 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', */
+
+/* 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', */
+
+/* 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', */
+
+/* 'plus', 'plusminus', 'minus', 'multiply', 'equal', 'greater', 'less', 'logicalnot',  */
+
+/* 'emdash', 'endash', 'hyphen', */
+
+/* 'ellipsis',  */
+
+/* 'quotedbl', 'quotedblleft', 'quotedblright', 'quoteleft', 'quoteright', 'quotesingle', */
+
+/* 'guilsinglleft', 'guilsinglright', - for breadcrumb links */
+
+/* 'ampersand', 'asterisk', 'at', 'backslash', */
+
+/* 'bar', 'braceleft', 'braceright', 'bracketleft', 'bracketright', 'parenleft', 'parenright', 'numbersign',  */
+
+/* 'bullet', 'periodcentered',  */
+
+/* 'asciicircum', 'asciitilde', 'grave',  */
+
+/* 'copyright', 'degree', 'registered', 'section', 'trademark',  */
+
+/* 'colon', 'comma', 'dollar', 'exclam', 'percent', 'period', 'question',  'semicolon', 'slash', 'space', 'underscore'] */
+
+
+/* -------------------------------------------------------------------------- */
+/* regular */
+
+@font-face {
+    font-family: 'Bitstream Charter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/charter/charter_regular.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Bitstream Charter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/charter-tiny/charter_tiny_regular.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* bold */
+
+@font-face {
+    font-family: 'Bitstream Charter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('fonts/charter/charter_bold.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Bitstream Charter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/charter-tiny/charter_tiny_bold.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* italic */
+
+@font-face {
+    font-family: 'Bitstream Charter';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/charter/charter_italic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Bitstream Charter';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/charter-tiny/charter_tiny_italic.woff2') format('woff2');
+}
+
+/* -------------------------------------------------------------------------- */
+/* bold italic */
+
+@font-face {
+    font-family: 'Bitstream Charter';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('fonts/charter/charter_bold_italic.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Bitstream Charter';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    unicode-range: U+0020-007E,U+00A7,U+00A9,U+00AC,U+00AD,U+00AE,U+00B0,U+00B1,U+00B7,U+00D7,U+2013,U+2014,U+2018,U+2019,U+201C,U+201D,U+2022,U+2026,U+2039,U+203A,U+2122,U+2212;
+    src: url('fonts/charter-tiny/charter_tiny_bold_italic.woff2') format('woff2');
+}

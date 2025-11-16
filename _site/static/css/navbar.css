@@ -1,0 +1,244 @@
+/* ---------------------------------------------------------------------- */
+/* navbar: bar container at the top of the screen */
+
+.navbar {
+    /* fixed height, row-layout, items fill height */
+    height: 2.5rem;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    /* no padding or margin; fill container */
+    padding: 0em;
+    margin: 0em;
+
+    /* charcoal with gray text */
+    background-color: #36454F;
+    color: #f2f2f2;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+@media print {
+    .navbar {
+        display: none;
+    }
+}
+
+
+/* ---------------------------------------------------------------------- */
+/* top-level elements within the navbar */
+
+/* PLAIN text */
+.dropbtn, .hamburger {
+    all: unset;
+}
+.navbar a, .mobile-menu a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: inherit;
+    font-shape: inherit;
+    font-size: inherit;
+}
+
+/* top-level items: center content vertically */
+.navbar a, .navbar div.dropdown, .hamburger, .navbar div.auth-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* separate horizontally by 2em */
+.navbar a, .dropbtn, .hamburger, .navbar div.auth-links,
+.mobile-menu a, .mobile-menu div.auth-links {
+    padding: 0em 1em;
+    margin: 0;
+    border-radius: 0;
+}
+
+/* button acts like a link */
+.dropbtn, .hamburger {
+    cursor: pointer;
+    display: inline-block;
+    height: 100%;
+}
+
+/* change color on hover */
+.navbar a:hover, .navbar .dropbtnlink:hover {
+    background-color: #94acbf;
+    color: #000;
+    transition: all 0.2s ease-in-out;
+}
+
+/* add an arrow to buttons indicate that a dropdown exists */
+.dropbtn::after {
+    content: "▾";
+    font-size: 0.8em;
+    margin-left: 6px;
+    display: inline-block;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* rotate caret when dropdown is open */
+.dropdown:hover .dropbtn::after {
+    transform: rotate(-180deg);
+}
+
+
+/* ---------------------------------------------------------------------- */
+/* auth links flush to the right */
+
+.navbar div.auth-links, .navbar a.authlinks {
+    margin-left: auto;
+}
+
+/* use javascript to switch these when logged in */
+.navbar div.auth-links.login, .navbar a.auth-links.login {
+    display: flex;
+}
+
+.navbar div.auth-links.logout, .navbar a.auth-links.logout {
+    display: none;
+}
+
+
+/* ---------------------------------------------------------------------- */
+/* hamburger menu */
+
+.hamburger {
+    display: none;              /* hide by default */
+    font-size: 1.7rem;
+    translate: 0 -2px;
+}
+
+
+/* ---------------------------------------------------------------------- */
+/* dropdown element appears on hover */
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    /* hide by default */
+    display: block; /* keep it in the layout but invisible */
+    opacity: 0;
+    visibility: hidden; /* ensures it's not interactive when hidden */
+
+    max-height: 0; /* start collapsed */
+    overflow: hidden; /* hide overflowing content */
+    transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out, visibility 0.5s;
+
+    /* position it just below the navbar */
+    position: absolute;
+    left: 0;
+    top: 100%;
+
+    min-width: 100%;     /* makes the dropdown as wide as the parent */
+    white-space: nowrap; /* prevents text from wrapping */
+
+    background-color: #536a79;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+
+    padding-bottom: 0.5em;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.dropdown-content a {
+    padding: 0.5em 1em;
+}
+
+/* reveal dropdown-content on hover */
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px; /* Large enough for the dropdown content */
+}
+
+
+/* ---------------------------------------------------------------------- */
+/* for phone screens (<550px) */
+
+/* hide unnecessary items from the navbar menu */
+@media screen and (max-width: 550px) {
+    .navbar a, .navbar div.dropdown {
+        display: none;
+    }
+    .navbar a.showphone, .navbar div.dropdown.showphone {
+        display: flex;
+    }
+    .hamburger {
+        display: flex;
+    }
+}
+@media screen and (min-width: 551px) and (max-width: 750px) {
+    .navbar a, .navbar div.dropdown {
+        display: none;
+    }
+    .navbar a.showphone, .navbar div.dropdown.showphone,
+    .navbar a.showtablet, .navbar div.dropdown.showtablet {
+        display: flex;
+    }
+    .hamburger {
+        display: flex;
+    }
+}
+
+/* create a dropdown mobile menu; hidden by default */
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+
+    /* position immediately below navbar */
+    position: absolute;
+    top: 2.5rem;
+    left: 0;
+    width: 100%;
+
+    padding: 0.5em 0;
+
+    /* charcoal with gray text */
+    background-color: #36454F;
+    color: #f2f2f2;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+@media print {
+    .mobile-menu {
+        display: none;
+    }
+}
+
+
+/* mobile menu links */
+.mobile-menu a, .mobile-menu .dropdown {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    display: block;
+}
+
+.mobile-menu .dropdown-content {
+    position: relative;
+
+    padding: 0;
+    padding-left: 1em;          /* indent slightly */
+    border-radius: 0;
+
+    /* hide by default */
+    display: block;          /* keep it in the layout but invisible */
+    opacity: 0;
+    max-height: 0;              /* start collapsed */
+    overflow: hidden;           /* hide overflowing content */
+    visibility: hidden; /* ensures it's not interactive when hidden */
+    transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out, visibility 0.5s;
+}
+
+/* reveal dropdown on hover */
+.mobile-menu .dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px;
+}

@@ -1,0 +1,125 @@
+.accordion {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Accordion buttons */
+.accordion-button {
+    background: #f0e4d0;
+    width: 100%;
+    text-align: left;
+    padding: 1em;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 100%;
+    font-family: inherit;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.accordion-button:hover {
+    background: #e7d8c4;
+}
+
+.accordion-button.active {
+    background: #e1d3b8;
+}
+
+/* Accordion content container */
+.accordion-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3em;
+
+    max-height: 0; /* Initially collapsed */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    background: #faf4e8;
+    border-top: 1px solid #ccc;
+    padding: 0 1em; /* Collapsed padding */
+}
+
+/* Expanded state */
+.accordion-content.show {
+    padding: 1em; /* Add padding when expanded */
+}
+
+/* Image inside accordion */
+.accordion-image {
+    width: 30%;
+    height: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* Full clickable body */
+.full-accordion-link {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    text-decoration: none;
+    color: inherit;
+    font-weight: inherit;
+    width: 100%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.full-accordion-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+/* Optional: Add a small right arrow to reinforce interactivity */
+.full-accordion-link::after {
+    content: "\00a0→"; /* Same as the follow-me style */
+    font-weight: normal;
+    display: inline-block;
+    margin-left: 0.3em;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Slight movement when hovering */
+.full-accordion-link:hover::after {
+    transform: translateX(3px);
+}
+
+.accordion-content div.tab-plotly{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+@media (max-width: 550px) {
+    .accordion-image {
+        /* display: none; */
+        margin-bottom: none;
+    }
+    .accordion-content, .full-accordion-link {
+        flex-direction: column;
+        justify-content: center;
+        gap: 0em;
+    }
+    .accordion-content div.tab-plotly{
+        margin-top: 1em;
+        margin-bottom: 0em;
+    }
+}
+
+/* in the layout, we include the DL twice: once with the class
+   .screen-view and once with the class .print-view.  we use media
+   queries to make sure only one shows at a time. */
+
+/* default: Show screen version, hide print version */
+.accordion.print-view { display: none; }
+.accordion.screen-view { display: block; }
+
+/* when printing, show the print version and hide the tabs */
+@media print {
+    .accordion.screen-view { display: none !important; }
+    .accordion.print-view { display: block !important; }
+}

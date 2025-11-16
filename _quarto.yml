@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: blog
+
+resources:
+  - "static/fonts/**"
+
+website:
+  title: "Kian.WTF" 
+  site-url: https://sturdystatistics.com/blog
+  description: "Kian Ghodoussi's Personal Website"
+  favicon: static/favicon.ico
+  navbar:
+    left:
+      - text: "Blog"
+        href: index.qmd
+    right:
+      - text: "About"
+        href: about.qmd
+      - icon: rss
+        href: index.xml
+format:
+  html:
+    theme: litera
+    highlight-style: solarized
+    css:
+      - static/charter.css
+      - static/lato-latin.css
+      - static/sturdy.css
+      - static/slope_plot.css
+
+

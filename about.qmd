@@ -1,0 +1,20 @@
+---
+title: "About Kian"
+image: static/sturdystats.png 
+about:
+  template: jolla 
+  image-shape: rectangle 
+  links:
+    - icon: na
+      text: Website 
+      href: https://sturdystatistics.com/ 
+    - icon: na
+      text: Documentation 
+      href: https://sturdystatistics.com/docs
+    - icon: na
+      text: Github
+      href: https://github.com/Sturdy-Statistics
+
+---
+
+This is my website. Most of the content here is centered around my opinions around computing, Bayesian modeling, local events in Santa Barbara and the many discrepencies I see between claims and reality in the tech industry. I tend to publish my more rigorous analyses at my company's [blog](https://blog.sturdystatistics.com) and [website](https:sturdystatistics.com).

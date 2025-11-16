@@ -1,0 +1,66 @@
+main.writeup.pricing {
+    width: 1200px;
+    max-width: 90%;
+}
+
+main.writeup.pricing p.highlight {
+    max-width:30em;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:3em;
+}
+
+div.grid-container.pricing {
+    grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+}
+
+div.grid-container.pricing .grid-card {
+
+}
+
+div.grid-container.pricing h3{
+    text-align: center;
+    font-size: 300%;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 4px 5px rgba(0, 0, 0, 0.1);
+    color: #1e4636;
+}
+
+div.grid-container.pricing p.price{
+    /* border-bottom: 1px solid black; */
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: end;
+    margin-bottom: 0em;
+}
+
+div.grid-container.pricing hr {
+    border: none;
+    height: 3px;
+    background: linear-gradient(90deg, #1e4636, #326750 35.17%, #f5efe3 93.07%);
+}
+
+div.grid-container.pricing span.price{
+    font-size: 200%;
+}
+
+div.grid-container.pricing p.pricing-cta{
+    font-style: italic;
+    font-weight: bold;
+    display: inline-block;
+    color: #1e4636;
+    margin-top: 1em;
+}
+
+div.grid-container.pricing p.pricing-cta::after{
+    content: " →";
+    display: inline-block;
+    margin-left: 0.3em;
+    transition: transform 0.2s ease-in-out; /* smooth hover effect */
+}
+
+div.grid-container.pricing p.pricing-cta:hover::after{
+    transform: translateX(3px);
+}

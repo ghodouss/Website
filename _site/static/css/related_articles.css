@@ -1,0 +1,37 @@
+/* General styling */
+div.related-articles {
+    background: #f5f4f3; /* Light gray background */
+    padding: 15px;
+    border-left: 5px solid #326750; /* Accent border */
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 40px auto; /* Center it below the article */
+}
+
+/* Header */
+div.related-articles h3 {
+    font-size: 120%;
+    color: #326750;
+    margin-top: 5px;
+    padding-top: 0em;
+    margin-bottom: 10px;
+}
+
+/* List styling */
+div.related-articles ul {
+    list-style: none;
+    padding: 0;
+    line-height: 1.7;
+}
+
+/* Ensure list items are aligned properly */
+div.related-articles li {
+    margin-left: 1em;
+}
+
+/* Hanging indent for multi-line links */
+div.related-articles li a {
+    display: block; /* Makes the entire link a block for proper text alignment */
+    text-indent: -1em; /* Pull the first line back */
+    padding-left: 1em; /* Offset so second line aligns correctly */
+}

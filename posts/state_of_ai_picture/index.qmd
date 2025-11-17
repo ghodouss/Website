@@ -1,0 +1,13 @@
+---
+title: State of the AI Industry in a Screenshot 
+date: 2025-11-16
+categories: [LLMs, Opinion]
+---
+
+![AI companies really make 180 degree shifts overnight.](state.png)
+
+Oct. 2024 post goes into extended detail aobut how much work it is to build a RAG system, the competetive advantage in AI is not the LLM but being incredbly smart about what you feed into the context window. 
+
+Oct. 2025 proclaims RAG is dead: just pass everything into the 2M token context window, let agents decide what to pass in. 
+
+[Source](https://www.nicolasbustamante.com/): Founder of a YC backed financial analysis company.

@@ -10,7 +10,31 @@
 <atom:link href="https://sturdystatistics.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kian Ghodoussi&#39;s Personal Website</description>
 <generator>quarto-1.6.32</generator>
-<lastBuildDate>Sat, 20 Sep 2025 07:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 17 Nov 2025 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>State of the AI Industry in a Screenshot</title>
+  <link>https://sturdystatistics.com/blog/posts/state_of_ai_picture/</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://sturdystatistics.com/blog/posts/state_of_ai_picture/state.png" class="img-fluid figure-img"></p>
+<figcaption>AI companies really make 180 degree shifts overnight.</figcaption>
+</figure>
+</div>
+<p>Oct.&nbsp;2024 post goes into extended detail aobut how much work it is to build a RAG system, the competetive advantage in AI is not the LLM but being incredbly smart about what you feed into the context window.</p>
+<p>Oct.&nbsp;2025 proclaims RAG is dead: just pass everything into the 2M token context window, let agents decide what to pass in.</p>
+<p><a href="https://www.nicolasbustamante.com/">Source</a>: Founder of a YC backed financial analysis company.</p>
+
+
+
+ ]]></description>
+  <guid>https://sturdystatistics.com/blog/posts/state_of_ai_picture/</guid>
+  <pubDate>Mon, 17 Nov 2025 08:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Santa Barbara Burrito Week Prospective Itinerary</title>
   <link>https://sturdystatistics.com/blog/posts/santa_barbara_burrito_week_2025.html</link>

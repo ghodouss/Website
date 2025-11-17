@@ -63,6 +63,13 @@
     "text": "Restaruant\nTags\nHours\nNotes\n\n\n\n\nPetra Cafe\nC+\nTu-Su: 12-11\nFalafel 7.5\n\n\nPoke House\nC+\n11-9\nTuna Poke\n\n\nDaves Dogs\nC\nM-Sa: 11-11\nfried chicken\n\n\nSBFM\nC\n10-7\ntuna & salmon"
   },
   {
+    "objectID": "posts/state_of_ai_picture/index.html",
+    "href": "posts/state_of_ai_picture/index.html",
+    "title": "State of the AI Industry in a Screenshot",
+    "section": "",
+    "text": "AI companies really make 180 degree shifts overnight.\n\n\nOct. 2024 post goes into extended detail aobut how much work it is to build a RAG system, the competetive advantage in AI is not the LLM but being incredbly smart about what you feed into the context window.\nOct. 2025 proclaims RAG is dead: just pass everything into the 2M token context window, let agents decide what to pass in.\nSource: Founder of a YC backed financial analysis company."
+  },
+  {
     "objectID": "posts/santa_barbara_burrito_week_2025.html",
     "href": "posts/santa_barbara_burrito_week_2025.html",
     "title": "Santa Barbara Burrito Week Prospective Itinerary",
@@ -95,6 +102,6 @@
     "href": "index.html",
     "title": "Kian Ghodoussi’s Blog",
     "section": "",
-    "text": "Santa Barbara Burrito Week Prospective Itinerary\n\n\n\n\n\n\n\n\n\n\n\nSep 20, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSanta Barbara Sandwich Week Prospective Itinerary\n\n\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSB Burger Week Tiers\n\n\n\n\n\n\n\n\n\n\n\nSep 23, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "State of the AI Industry in a Screenshot\n\n\n\n\n\n\n\n\n\n\n\nNov 17, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSanta Barbara Burrito Week Prospective Itinerary\n\n\n\n\n\n\n\n\n\n\n\nSep 20, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSanta Barbara Sandwich Week Prospective Itinerary\n\n\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSB Burger Week Tiers\n\n\n\n\n\n\n\n\n\n\n\nSep 23, 2024\n\n\n\n\n\n\nNo matching items"
   }
 ]

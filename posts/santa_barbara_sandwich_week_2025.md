@@ -1,6 +1,7 @@
 ---
 title: Santa Barbara Sandwich Week Prospective Itinerary 
 date: 2025-06-25
+categories: [Santa Barbara]
 ---
 
 This is the set of restaurants for which I am the most personally excited about during [Santa Barbara sandwich week](https://www.independent.com/2025/06/25/santa-barbaras-first-ever-sandwich-week). 

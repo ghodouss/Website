@@ -1,6 +1,7 @@
 ---
 title: SB Burger Week Tiers
 date: 2024-09-23
+categories: [Santa Barbara]
 ---
 
 # SB Burger Week Tiers

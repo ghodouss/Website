@@ -12,6 +12,54 @@
 <generator>quarto-1.6.32</generator>
 <lastBuildDate>Mon, 17 Nov 2025 08:00:00 GMT</lastBuildDate>
 <item>
+  <title>Hierarchical Mixture Model for Single Cell Sequencing I</title>
+  <link>https://sturdystatistics.com/blog/posts/scrna-1/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>One of my favorite parts of my job is that I am able to spend 1 day per week focusing on applying our <a href="https://blog.sturdystatistics.com/posts/technology/">hierarchical mixture modeling technology</a> to genomic applications. I’ve been working closely with the <a href="https://www.holehouselab.com/team#yui_3_17_2_1_1763399224829_163">Ramiz Somjee</a> on applying our technology to scRNA sequencing data.</p>
+<section id="tldr-why-im-excited" class="level2">
+<h2 class="anchored" data-anchor-id="tldr-why-im-excited">TLDR: Why I’m Excited</h2>
+<p>Current scRNA pipelines rely on a heuristic driven 2-step process. First some form of filtering+dimensionality reduction, followed by a clustering step, followed by either manual labeling of these clusters or a classification model to learn/apply annotation to this data.</p>
+<p>Our technology can model this entire pipeline in as a single unified joint probabilty distribution with 3 branches. We have a topic branch that learns a probability distribution across genes for each topic, a cell branch that learns a probabilty distribution across topics for each cell, and a classification branch that learns regression weights for each cell’s topic distribution.</p>
+<p>This is powerful because our topics are jointly modeling both the unsupervised co-occurance information along with any annotations provided. This structure enables not only <a href="https://sturdystatistics.com/features/#classification">robust, few-shot classification</a> but also extremely granular explainability.</p>
+</section>
+<section id="first-experiment" class="level2">
+<h2 class="anchored" data-anchor-id="first-experiment">First Experiment</h2>
+<p>We took an already annotated dataset that Ramiz was extremely familiar with to evaluate (1) whether our model was capable to learning the annotations and (2) whether the genes that comprised the predictive topics lined up with Ramiz’s extensive manual annotation process.</p>
+<p>The model actually worked better than I could have hoped. We trained the model on 150 labels for 12 different cell types. We then evaluated the model on 2000 held out datapoints. Our model mislabelled only 3/2000 examples in the test set. We didn’t dig too deep into the model performance beyond that, since this was more just a validation experiement.</p>
+<p>What I was really excited to dig into was the explanatory analysis. Our model uses a <a href="https://sturdystatistics.com/features/#error-tolerant">error-tolerant variant</a> of the sparsity-inducing <a href="https://arxiv.org/abs/1707.01694">Finish Horseshoe</a> prior that we call the Santa Barbara Horseshoe. This prior enables our model, with only a few examples, to confidently separate meaningful parameters from noisy ones.</p>
+<p><img src="https://sturdystatistics.com/blog/posts/scrna-1/Cone.png" class="img-fluid"> <img src="https://sturdystatistics.com/blog/posts/scrna-1/Rod.png" class="img-fluid"> <img src="https://sturdystatistics.com/blog/posts/scrna-1/BC.png" class="img-fluid"></p>
+<figcaption>
+<strong>Figure 1:</strong> Predictive weight of all topics to the corresponding cell type prediction with the three closely related conical cell types. Any topic not shown was strongly consistent with 0 or no predictive importance. Notice that any topic that is strongly predictive for one classs is strongly negative for the other. Our model is able to split out three distinct topic groups within even closely related cell types because of our ability to jointly model topics with labels.
+</figcaption>
+<p>What’s really cool is now for any of the predictive topics, we can dig into the genes that comprise it:</p>
+<section id="topic-49-predictive-of-rod" class="level4">
+<h4 class="anchored" data-anchor-id="topic-49-predictive-of-rod">Topic 49: Predictive of Rod</h4>
+<pre><code>['Sag', 'Gngt1', 'Rho', 'mt-Atp6', 'Pdc', 'Mir124-2hg', 'Prph2',
+'mt-Co2', 'Unc119', 'Pde6g', 'Tma7', 'Rom1', 'Ubb', 'Nr2e3',
+'Rpl26', 'Hsp90aa1', 'H3f3b', 'mt-Cytb', 'Gapdh', 'H3f3a',
+'Rpgrip1', 'Pkm', 'Rp1', 'mt-Co3', 'Gnb1', 'mt-Co1', 'Ckb']</code></pre>
+<p>These genes line up really exactly with Ramiz’s manual annotation. The difference was that this pipeline was fully automatic.</p>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>While I believe there is a lot of value to the explainble components of this model, we are going to focus on classification because it is much easier to quantitatively evaluate and can also solve a real pain point for the scRNA research community. I described the current painstaking process of annotating scRNA sequences that is extremely manual, heuristic, and time consuming. The reason for this current process is current classification methods do not generalize across experiments: batch effects throw off normal statistics based classification and clustering models.</p>
+<p>Our model provides a number of avenues to handle batch effects. Our hope is that it works out of the box, but we also have hierarchical levers we can pull to factor batch effects directly into our model structure. We plan to take 35 annotated datasets of mouse eye scRNA sequences, train our model on one of them, and evaluate it’s performance on the other 34. Our model’s performancew ill determine the next steps from there, but I’m extremely excited and optimistic based on our initial set of results.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Genomics</category>
+  <category>Bayesian Modeling</category>
+  <guid>https://sturdystatistics.com/blog/posts/scrna-1/</guid>
+  <pubDate>Mon, 17 Nov 2025 08:00:00 GMT</pubDate>
+</item>
+<item>
   <title>State of the AI Industry in a Screenshot</title>
   <link>https://sturdystatistics.com/blog/posts/state_of_ai_picture/</link>
   <description><![CDATA[ 
@@ -32,8 +80,10 @@
 
 
  ]]></description>
+  <category>LLMs</category>
+  <category>Opinion</category>
   <guid>https://sturdystatistics.com/blog/posts/state_of_ai_picture/</guid>
-  <pubDate>Mon, 17 Nov 2025 08:00:00 GMT</pubDate>
+  <pubDate>Sun, 16 Nov 2025 08:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Santa Barbara Burrito Week Prospective Itinerary</title>
@@ -299,6 +349,7 @@
 </section>
 
  ]]></description>
+  <category>Santa Barbara</category>
   <guid>https://sturdystatistics.com/blog/posts/santa_barbara_burrito_week_2025.html</guid>
   <pubDate>Sat, 20 Sep 2025 07:00:00 GMT</pubDate>
 </item>
@@ -424,6 +475,7 @@
 </section>
 
  ]]></description>
+  <category>Santa Barbara</category>
   <guid>https://sturdystatistics.com/blog/posts/santa_barbara_sandwich_week_2025.html</guid>
   <pubDate>Wed, 25 Jun 2025 07:00:00 GMT</pubDate>
 </item>
@@ -603,6 +655,7 @@
 </section>
 
  ]]></description>
+  <category>Santa Barbara</category>
   <guid>https://sturdystatistics.com/blog/posts/santa_barbara_burger_week_2024.html</guid>
   <pubDate>Mon, 23 Sep 2024 07:00:00 GMT</pubDate>
 </item>

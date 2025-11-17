@@ -1,6 +1,7 @@
 ---
 title: Santa Barbara Burrito Week Prospective Itinerary 
 date: 2025-09-20
+categories: [Santa Barbara]
 ---
 
 This is the set of restaurants for which I am the most personally excited about during [Santa Barbara burrito week](https://www.independent.com/2025/09/17/roll-em-up-chow-em-down-its-burrito-week-2025/). 

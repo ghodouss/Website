@@ -7,25 +7,60 @@
     "text": "This is my website. Most of the content here is centered around my opinions around computing, Bayesian modeling, local events in Santa Barbara and the many discrepencies I see between claims and reality in the tech industry. I tend to publish my more rigorous analyses at my company’s blog and website."
   },
   {
-    "objectID": "posts/santa_barbara_sandwich_week_2025.html",
-    "href": "posts/santa_barbara_sandwich_week_2025.html",
-    "title": "Santa Barbara Sandwich Week Prospective Itinerary",
+    "objectID": "posts/scrna-1/index.html",
+    "href": "posts/scrna-1/index.html",
+    "title": "Hierarchical Mixture Model for Single Cell Sequencing I",
     "section": "",
-    "text": "This is the set of restaurants for which I am the most personally excited about during Santa Barbara sandwich week. This list factors in variety, convenience, and excitement. I will update this list as I eat. I may even get crazy and visit a place not on this list. I will keep you posted."
+    "text": "One of my favorite parts of my job is that I am able to spend 1 day per week focusing on applying our hierarchical mixture modeling technology to genomic applications. I’ve been working closely with the Ramiz Somjee on applying our technology to scRNA sequencing data."
   },
   {
-    "objectID": "posts/santa_barbara_sandwich_week_2025.html#kians-itinerary",
-    "href": "posts/santa_barbara_sandwich_week_2025.html#kians-itinerary",
-    "title": "Santa Barbara Sandwich Week Prospective Itinerary",
-    "section": "Kian’s Itinerary",
-    "text": "Kian’s Itinerary\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\n\n\n\n\nBlackbird\nFried Chickem\n9.5\nTue-Sat 5pm-\ny\n\n\nPoke House\nSalmon Poke\n9.5\n11am - 9pm\ny\n\n\nGoat Tree\nEgg Cheese Bacon\n9\n7am - 3pm\ny\n\n\nWhite Caps\nBrisket dip + tomato\n9\n8am - 1pm M-F\nn\n\n\nSB Food Connection\nChicken Pesto Pluma\n8.5\n11am - 8m (10pm fri-sun)\ny\n\n\nDutch Gardens\nBLT\n8\nWe - Sun 11am - 3pm\ny\n\n\nPetra Cafe\nChicken Schwarma\n8\n12pm - 11pm\ny\n\n\nSB Fish Market\nTuna Salad\n8\n9am - 630pm\nn\n\n\nGala\nFried Chicken\n8\nTue - Sat 4pm - 10pm\ny"
+    "objectID": "posts/scrna-1/index.html#tldr-why-im-excited",
+    "href": "posts/scrna-1/index.html#tldr-why-im-excited",
+    "title": "Hierarchical Mixture Model for Single Cell Sequencing I",
+    "section": "TLDR: Why I’m Excited",
+    "text": "TLDR: Why I’m Excited\nCurrent scRNA pipelines rely on a heuristic driven 2-step process. First some form of filtering+dimensionality reduction, followed by a clustering step, followed by either manual labeling of these clusters or a classification model to learn/apply annotation to this data.\nOur technology can model this entire pipeline in as a single unified joint probabilty distribution with 3 branches. We have a topic branch that learns a probability distribution across genes for each topic, a cell branch that learns a probabilty distribution across topics for each cell, and a classification branch that learns regression weights for each cell’s topic distribution.\nThis is powerful because our topics are jointly modeling both the unsupervised co-occurance information along with any annotations provided. This structure enables not only robust, few-shot classification but also extremely granular explainability."
   },
   {
-    "objectID": "posts/santa_barbara_sandwich_week_2025.html#johns-oak-park-additions",
-    "href": "posts/santa_barbara_sandwich_week_2025.html#johns-oak-park-additions",
-    "title": "Santa Barbara Sandwich Week Prospective Itinerary",
-    "section": "John’s Oak Park Additions",
-    "text": "John’s Oak Park Additions\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\n\n\n\n\nValidation Ale\nGochujang Fried Chicken\n6\nM-Sa 1130am - 830pm\ny\n\n\nYellow Belly\nPulled Pork\n6\nM-Sa 4pm - 830pm\ny"
+    "objectID": "posts/scrna-1/index.html#first-experiment",
+    "href": "posts/scrna-1/index.html#first-experiment",
+    "title": "Hierarchical Mixture Model for Single Cell Sequencing I",
+    "section": "First Experiment",
+    "text": "First Experiment\nWe took an already annotated dataset that Ramiz was extremely familiar with to evaluate (1) whether our model was capable to learning the annotations and (2) whether the genes that comprised the predictive topics lined up with Ramiz’s extensive manual annotation process.\nThe model actually worked better than I could have hoped. We trained the model on 150 labels for 12 different cell types. We then evaluated the model on 2000 held out datapoints. Our model mislabelled only 3/2000 examples in the test set. We didn’t dig too deep into the model performance beyond that, since this was more just a validation experiement.\nWhat I was really excited to dig into was the explanatory analysis. Our model uses a error-tolerant variant of the sparsity-inducing Finish Horseshoe prior that we call the Santa Barbara Horseshoe. This prior enables our model, with only a few examples, to confidently separate meaningful parameters from noisy ones.\n  \n\nFigure 1: Predictive weight of all topics to the corresponding cell type prediction with the three closely related conical cell types. Any topic not shown was strongly consistent with 0 or no predictive importance. Notice that any topic that is strongly predictive for one classs is strongly negative for the other. Our model is able to split out three distinct topic groups within even closely related cell types because of our ability to jointly model topics with labels.\n\nWhat’s really cool is now for any of the predictive topics, we can dig into the genes that comprise it:\n\nTopic 49: Predictive of Rod\n['Sag', 'Gngt1', 'Rho', 'mt-Atp6', 'Pdc', 'Mir124-2hg', 'Prph2',\n'mt-Co2', 'Unc119', 'Pde6g', 'Tma7', 'Rom1', 'Ubb', 'Nr2e3',\n'Rpl26', 'Hsp90aa1', 'H3f3b', 'mt-Cytb', 'Gapdh', 'H3f3a',\n'Rpgrip1', 'Pkm', 'Rp1', 'mt-Co3', 'Gnb1', 'mt-Co1', 'Ckb']\nThese genes line up really exactly with Ramiz’s manual annotation. The difference was that this pipeline was fully automatic."
+  },
+  {
+    "objectID": "posts/scrna-1/index.html#next-steps",
+    "href": "posts/scrna-1/index.html#next-steps",
+    "title": "Hierarchical Mixture Model for Single Cell Sequencing I",
+    "section": "Next Steps",
+    "text": "Next Steps\nWhile I believe there is a lot of value to the explainble components of this model, we are going to focus on classification because it is much easier to quantitatively evaluate and can also solve a real pain point for the scRNA research community. I described the current painstaking process of annotating scRNA sequences that is extremely manual, heuristic, and time consuming. The reason for this current process is current classification methods do not generalize across experiments: batch effects throw off normal statistics based classification and clustering models.\nOur model provides a number of avenues to handle batch effects. Our hope is that it works out of the box, but we also have hierarchical levers we can pull to factor batch effects directly into our model structure. We plan to take 35 annotated datasets of mouse eye scRNA sequences, train our model on one of them, and evaluate it’s performance on the other 34. Our model’s performancew ill determine the next steps from there, but I’m extremely excited and optimistic based on our initial set of results."
+  },
+  {
+    "objectID": "posts/santa_barbara_burrito_week_2025.html",
+    "href": "posts/santa_barbara_burrito_week_2025.html",
+    "title": "Santa Barbara Burrito Week Prospective Itinerary",
+    "section": "",
+    "text": "This is the set of restaurants for which I am the most personally excited about during Santa Barbara burrito week. This list factors in variety, convenience, and excitement. I will update this list as I eat. I may even get crazy and visit a place not on this list. I will keep you posted."
+  },
+  {
+    "objectID": "posts/santa_barbara_burrito_week_2025.html#kians-picks",
+    "href": "posts/santa_barbara_burrito_week_2025.html#kians-picks",
+    "title": "Santa Barbara Burrito Week Prospective Itinerary",
+    "section": "Kian’s Picks",
+    "text": "Kian’s Picks\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\nVibe\n\n\n\n\nPoke House\npoke burrito\n10\n11am-9pm\nY\n7.5\n\n\nPetra Cafe\nfalafel burrito\n9\n11am-11pm, X-monday\nY\n9\n\n\nYona Redz\nbirria, fish\n9\n11am-9pm\nY\n6\n\n\nGoat Tree\nlamb shwarma\n9\n7am-3pm\nY\n10\n\n\nSB Fish Market\nshrimp\n8.5\n11am-7pm\nN\n7\n\n\nCafe la Fonda\nveggie wet burrito\n8.5\n8am-4pm\nY\n8.5\n\n\nLos Agaves\nchicken, pastor, veggie\n8.5\n11am-9pm\nY\n8\n\n\nLos Arroyos\nchicken burrito\n8.5\n11am-9pm\nY\n8\n\n\nCorazon Cocina\npaisa (pastor) burrito\n8.5\n11am-3pm\nY\n7\n\n\nComedor/little heart\nbreakfast burrito\n8.5\n8am-2pm\nY\n9\n\n\nHappy Cat Eats\nmac & cheese + breakfast\n8\n8am-630,730pm\nY\n?\n\n\nLittle Alex\npancake burrito, birria\n7.5\n8am-11am, 9pm\n~\n6\n\n\nRascals\nvegan chorizo\n7.5\n10am-1pm, 11am-2pm weekdays, 5pm-9pm all\nY\n?\n\n\nYellow Belly\ncarna asada+chorizo+wet\n7\n4pm-830pm\nY\n9\n\n\nMaize Picante\nveggie, carnitas, pastor\n6\n11am-10pm\nY\n6"
+  },
+  {
+    "objectID": "posts/santa_barbara_burrito_week_2025.html#funky-features",
+    "href": "posts/santa_barbara_burrito_week_2025.html#funky-features",
+    "title": "Santa Barbara Burrito Week Prospective Itinerary",
+    "section": "Funky Features",
+    "text": "Funky Features\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\nVibe\n\n\n\n\nPoke House\npoke burrito\n10\n11am-9pm\nY\n7.5\n\n\nGoat Tree\nlamb shwarma\n9\n7am-3pm\nY\n10\n\n\nPetra Cafe\nfalafel burrito\n9\n11am-11pm, X-monday\nY\n9\n\n\nSB Fish Market\nshrimp\n8.5\n11am-7pm\nN\n7\n\n\nHappy Cat Eats\nmac & cheese + breakfast\n8\n8am-630,730pm\nY\n?\n\n\nLittle Alex\npancake burrito, birria\n7.5\n8am-11am, 9pm\n~\n6\n\n\nRascals\nvegan chorizo\n7.5\n10am-1pm, 11am-2pm weekdays, 5pm-9pm all\nY\n?"
+  },
+  {
+    "objectID": "posts/santa_barbara_burrito_week_2025.html#convenience-is-key",
+    "href": "posts/santa_barbara_burrito_week_2025.html#convenience-is-key",
+    "title": "Santa Barbara Burrito Week Prospective Itinerary",
+    "section": "Convenience is Key",
+    "text": "Convenience is Key\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\nVibe\n\n\n\n\nLos Agaves\nchicken, pastor, veggie\n8.5\n11am-9pm\nY\n8\n\n\nYellow Belly\ncarna asada+chorizo+wet\n7\n4pm-830pm\nY\n9\n\n\nMaize Picante\nveggie, carnitas, pastor\n6\n11am-10pm\nY\n6"
   },
   {
     "objectID": "posts/santa_barbara_burger_week_2024.html",
@@ -70,66 +105,52 @@
     "text": "AI companies really make 180 degree shifts overnight.\n\n\nOct. 2024 post goes into extended detail aobut how much work it is to build a RAG system, the competetive advantage in AI is not the LLM but being incredbly smart about what you feed into the context window.\nOct. 2025 proclaims RAG is dead: just pass everything into the 2M token context window, let agents decide what to pass in.\nSource: Founder of a YC backed financial analysis company."
   },
   {
-    "objectID": "posts/santa_barbara_burrito_week_2025.html",
-    "href": "posts/santa_barbara_burrito_week_2025.html",
-    "title": "Santa Barbara Burrito Week Prospective Itinerary",
+    "objectID": "posts/llms_replace_caulk_with_cream_cheese.html",
+    "href": "posts/llms_replace_caulk_with_cream_cheese.html",
+    "title": "LLMs Replace Caulk with Cream Cheese",
     "section": "",
-    "text": "This is the set of restaurants for which I am the most personally excited about during Santa Barbara burrito week. This list factors in variety, convenience, and excitement. I will update this list as I eat. I may even get crazy and visit a place not on this list. I will keep you posted."
+    "text": "Cream cheese is great on a bagel. Mixed with sugar, great on a cinnamon roll. It’s a pretty sorry replacement for caulk. It fill the holes in your wall just fine. But the difference between caulk and cream cheese is that, over time caulk hardens and cream cheese decays.\nThe hidden cost of LLMs is that their best applications on-paper are use-cases that would displace the teams and individuals that are quietly holding companies together off-the-books."
   },
   {
-    "objectID": "posts/santa_barbara_burrito_week_2025.html#kians-picks",
-    "href": "posts/santa_barbara_burrito_week_2025.html#kians-picks",
-    "title": "Santa Barbara Burrito Week Prospective Itinerary",
-    "section": "Kian’s Picks",
-    "text": "Kian’s Picks\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\nVibe\n\n\n\n\nPoke House\npoke burrito\n10\n11am-9pm\nY\n7.5\n\n\nPetra Cafe\nfalafel burrito\n9\n11am-11pm, X-monday\nY\n9\n\n\nYona Redz\nbirria, fish\n9\n11am-9pm\nY\n6\n\n\nGoat Tree\nlamb shwarma\n9\n7am-3pm\nY\n10\n\n\nSB Fish Market\nshrimp\n8.5\n11am-7pm\nN\n7\n\n\nCafe la Fonda\nveggie wet burrito\n8.5\n8am-4pm\nY\n8.5\n\n\nLos Agaves\nchicken, pastor, veggie\n8.5\n11am-9pm\nY\n8\n\n\nLos Arroyos\nchicken burrito\n8.5\n11am-9pm\nY\n8\n\n\nCorazon Cocina\npaisa (pastor) burrito\n8.5\n11am-3pm\nY\n7\n\n\nComedor/little heart\nbreakfast burrito\n8.5\n8am-2pm\nY\n9\n\n\nHappy Cat Eats\nmac & cheese + breakfast\n8\n8am-630,730pm\nY\n?\n\n\nLittle Alex\npancake burrito, birria\n7.5\n8am-11am, 9pm\n~\n6\n\n\nRascals\nvegan chorizo\n7.5\n10am-1pm, 11am-2pm weekdays, 5pm-9pm all\nY\n?\n\n\nYellow Belly\ncarna asada+chorizo+wet\n7\n4pm-830pm\nY\n9\n\n\nMaize Picante\nveggie, carnitas, pastor\n6\n11am-10pm\nY\n6"
+    "objectID": "posts/santa_barbara_sandwich_week_2025.html",
+    "href": "posts/santa_barbara_sandwich_week_2025.html",
+    "title": "Santa Barbara Sandwich Week Prospective Itinerary",
+    "section": "",
+    "text": "This is the set of restaurants for which I am the most personally excited about during Santa Barbara sandwich week. This list factors in variety, convenience, and excitement. I will update this list as I eat. I may even get crazy and visit a place not on this list. I will keep you posted."
   },
   {
-    "objectID": "posts/santa_barbara_burrito_week_2025.html#funky-features",
-    "href": "posts/santa_barbara_burrito_week_2025.html#funky-features",
-    "title": "Santa Barbara Burrito Week Prospective Itinerary",
-    "section": "Funky Features",
-    "text": "Funky Features\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\nVibe\n\n\n\n\nPoke House\npoke burrito\n10\n11am-9pm\nY\n7.5\n\n\nGoat Tree\nlamb shwarma\n9\n7am-3pm\nY\n10\n\n\nPetra Cafe\nfalafel burrito\n9\n11am-11pm, X-monday\nY\n9\n\n\nSB Fish Market\nshrimp\n8.5\n11am-7pm\nN\n7\n\n\nHappy Cat Eats\nmac & cheese + breakfast\n8\n8am-630,730pm\nY\n?\n\n\nLittle Alex\npancake burrito, birria\n7.5\n8am-11am, 9pm\n~\n6\n\n\nRascals\nvegan chorizo\n7.5\n10am-1pm, 11am-2pm weekdays, 5pm-9pm all\nY\n?"
+    "objectID": "posts/santa_barbara_sandwich_week_2025.html#kians-itinerary",
+    "href": "posts/santa_barbara_sandwich_week_2025.html#kians-itinerary",
+    "title": "Santa Barbara Sandwich Week Prospective Itinerary",
+    "section": "Kian’s Itinerary",
+    "text": "Kian’s Itinerary\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\n\n\n\n\nBlackbird\nFried Chickem\n9.5\nTue-Sat 5pm-\ny\n\n\nPoke House\nSalmon Poke\n9.5\n11am - 9pm\ny\n\n\nGoat Tree\nEgg Cheese Bacon\n9\n7am - 3pm\ny\n\n\nWhite Caps\nBrisket dip + tomato\n9\n8am - 1pm M-F\nn\n\n\nSB Food Connection\nChicken Pesto Pluma\n8.5\n11am - 8m (10pm fri-sun)\ny\n\n\nDutch Gardens\nBLT\n8\nWe - Sun 11am - 3pm\ny\n\n\nPetra Cafe\nChicken Schwarma\n8\n12pm - 11pm\ny\n\n\nSB Fish Market\nTuna Salad\n8\n9am - 630pm\nn\n\n\nGala\nFried Chicken\n8\nTue - Sat 4pm - 10pm\ny"
   },
   {
-    "objectID": "posts/santa_barbara_burrito_week_2025.html#convenience-is-key",
-    "href": "posts/santa_barbara_burrito_week_2025.html#convenience-is-key",
-    "title": "Santa Barbara Burrito Week Prospective Itinerary",
-    "section": "Convenience is Key",
-    "text": "Convenience is Key\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\nVibe\n\n\n\n\nLos Agaves\nchicken, pastor, veggie\n8.5\n11am-9pm\nY\n8\n\n\nYellow Belly\ncarna asada+chorizo+wet\n7\n4pm-830pm\nY\n9\n\n\nMaize Picante\nveggie, carnitas, pastor\n6\n11am-10pm\nY\n6"
+    "objectID": "posts/santa_barbara_sandwich_week_2025.html#johns-oak-park-additions",
+    "href": "posts/santa_barbara_sandwich_week_2025.html#johns-oak-park-additions",
+    "title": "Santa Barbara Sandwich Week Prospective Itinerary",
+    "section": "John’s Oak Park Additions",
+    "text": "John’s Oak Park Additions\n\n\n\nRestaurant\nDescription\nExcitement\nHours\nBikeable\n\n\n\n\nValidation Ale\nGochujang Fried Chicken\n6\nM-Sa 1130am - 830pm\ny\n\n\nYellow Belly\nPulled Pork\n6\nM-Sa 4pm - 830pm\ny"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Kian Ghodoussi’s Blog",
     "section": "",
-    "text": "Hierarchical Mixture Model for Single Cell Sequencing I\n\n\n\n\n\n\n\n\n\n\n\nNov 17, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nState of the AI Industry in a Screenshot\n\n\n\n\n\n\n\n\n\n\n\nNov 16, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSanta Barbara Burrito Week Prospective Itinerary\n\n\n\n\n\n\n\n\n\n\n\nSep 20, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSanta Barbara Sandwich Week Prospective Itinerary\n\n\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSB Burger Week Tiers\n\n\n\n\n\n\n\n\n\n\n\nSep 23, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "LLMs Replace Caulk with Cream Cheese\n\n\n\n\n\n\n\n\n\n\n\nNov 18, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nHierarchical Mixture Model for Single Cell Sequencing I\n\n\n\n\n\n\n\n\n\n\n\nNov 17, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nState of the AI Industry in a Screenshot\n\n\n\n\n\n\n\n\n\n\n\nNov 16, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSanta Barbara Burrito Week Prospective Itinerary\n\n\n\n\n\n\n\n\n\n\n\nSep 20, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSanta Barbara Sandwich Week Prospective Itinerary\n\n\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nSB Burger Week Tiers\n\n\n\n\n\n\n\n\n\n\n\nSep 23, 2024\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "posts/scrna-1/index.html",
-    "href": "posts/scrna-1/index.html",
-    "title": "Hierarchical Mixture Model for Single Cell Sequencing I",
-    "section": "",
-    "text": "One of my favorite parts of my job is that I am able to spend 1 day per week focusing on applying our hierarchical mixture modeling technology to genomic applications. I’ve been working closely with the Ramiz Somjee on applying our technology to scRNA sequencing data."
+    "objectID": "posts/llms_replace_caulk_with_cream_cheese.html#two-examples",
+    "href": "posts/llms_replace_caulk_with_cream_cheese.html#two-examples",
+    "title": "LLMs Replace Caulk with Cream Cheese",
+    "section": "Two Examples",
+    "text": "Two Examples\n\nEnd to end customer support automation.\nLet’s assume LLMs never hallucinate and follow instructions perfectly. They will follow the high level instructions and think reasonably within the bounds of your parameters.\nWe are running a contact center for a telecom company and we want to deploy AI agents to automate our customer support. As an executive, this is a dream come true: I can simply describe what I want at a high level, have an engineer encode this into an agent, and I now have an army of customer support agents doing exactly what I told them to do.\nAnd that’s a problem.\nI worked as a data scientist in the contact center industry for several years. I never once met an executive who actually understood what was happening on their phone calls, nor did I ever meet one who was aware of it.\nContact centers function not because of their execute leadership, but in spite of it. Agents that support such a broad set of issues and queries that never propagate up to upper management. How would an AI agent handle credit locks? Arbitrary requests about whether NASCAR is included in their cable package? If Fiber is supported at their address?\nAll of these issues are solvable, but they require (1) the company to catch up with them as they appear and (2) the information to disseminate to the top level stakeholder. (1) loses the company money until (2) happens. And proper information dissemination is the maybe the largest unsolved in modern companies.\nThe cream cheese can fill the hole: costs go down, contact centers look fine. But now customers abuse the chatbot and so security costs go up. Revenue is dropping due to unexpected support and checkout issues. Customers churn to competitors. Observability and infrastructure costs go up. A functional organization held together by humans is now spending more money to “automate” their system.\n\n\nLarge Scale Text Data Analysis\nThe naive approach is to flood an LLM’s context window with as many documents as you can and ask it for an analysis or two answer a question of some kind. It’ll write up some plausible enough report. But this lacks structure, depth, and the ability to really dig deeper. GPT can automate the first step of analysis: but the process of doing that first step as a human is the framework for the actual meat of the analysis: the iterative process of learning, exploring, and digging.\nThere are ways you can improve the quality of the report. You can use the LLM to first organize excerpts and documents into categories, building a database to store and query these, feeding this structure recursively into an LLM. You can even put in some work to explore this structure yourself. But in this process you are again adding a layer of unreliability and obfuscation between you and the data, you are investing time into a process that is not building your domain knowledge, and you are being steered not toward the crucial unknown unknown, but rather to the report that looks the most probable to the LLM.\nThe cream cheese fills the hole: LLMs are able to write reports that look human almost instantly. But analysts who were previously digging into the contents of data, accumulating domain knowledge are now spending their time prompting, tinkering, and churning out professional written, insight-free reports."
   },
   {
-    "objectID": "posts/scrna-1/index.html#tldr-why-im-excited",
-    "href": "posts/scrna-1/index.html#tldr-why-im-excited",
-    "title": "Hierarchical Mixture Model for Single Cell Sequencing I",
-    "section": "TLDR: Why I’m Excited",
-    "text": "TLDR: Why I’m Excited\nCurrent scRNA pipelines rely on a heuristic driven 2-step process. First some form of filtering+dimensionality reduction, followed by a clustering step, followed by either manual labeling of these clusters or a classification model to learn/apply annotation to this data.\nOur technology can model this entire pipeline in as a single unified joint probabilty distribution with 3 branches. We have a topic branch that learns a probability distribution across genes for each topic, a cell branch that learns a probabilty distribution across topics for each cell, and a classification branch that learns regression weights for each cell’s topic distribution.\nThis is powerful because our topics are jointly modeling both the unsupervised co-occurance information along with any annotations provided. This structure enables not only robust, few-shot classification but also extremely granular explainability."
-  },
-  {
-    "objectID": "posts/scrna-1/index.html#first-experiment",
-    "href": "posts/scrna-1/index.html#first-experiment",
-    "title": "Hierarchical Mixture Model for Single Cell Sequencing I",
-    "section": "First Experiment",
-    "text": "First Experiment\nWe took an already annotated dataset that Ramiz was extremely familiar with to evaluate (1) whether our model was capable to learning the annotations and (2) whether the genes that comprised the predictive topics lined up with Ramiz’s extensive manual annotation process.\nThe model actually worked better than I could have hoped. We trained the model on 150 labels for 12 different cell types. We then evaluated the model on 2000 held out datapoints. Our model mislabelled only 3/2000 examples in the test set. We didn’t dig too deep into the model performance beyond that, since this was more just a validation experiement.\nWhat I was really excited to dig into was the explanatory analysis. Our model uses a error-tolerant variant of the sparsity-inducing Finish Horseshoe prior that we call the Santa Barbara Horseshoe. This prior enables our model, with only a few examples, to confidently separate meaningful parameters from noisy ones.\n  \n\nFigure 1: Predictive weight of all topics to the corresponding cell type prediction with the three closely related conical cell types. Any topic not shown was strongly consistent with 0 or no predictive importance. Notice that any topic that is strongly predictive for one classs is strongly negative for the other. Our model is able to split out three distinct topic groups within even closely related cell types because of our ability to jointly model topics with labels.\n\nWhat’s really cool is now for any of the predictive topics, we can dig into the genes that comprise it:\n\nTopic 49: Predictive of Rod\n['Sag', 'Gngt1', 'Rho', 'mt-Atp6', 'Pdc', 'Mir124-2hg', 'Prph2',\n'mt-Co2', 'Unc119', 'Pde6g', 'Tma7', 'Rom1', 'Ubb', 'Nr2e3',\n'Rpl26', 'Hsp90aa1', 'H3f3b', 'mt-Cytb', 'Gapdh', 'H3f3a',\n'Rpgrip1', 'Pkm', 'Rp1', 'mt-Co3', 'Gnb1', 'mt-Co1', 'Ckb']\nThese genes line up really exactly with Ramiz’s manual annotation. The difference was that this pipeline was fully automatic."
-  },
-  {
-    "objectID": "posts/scrna-1/index.html#next-steps",
-    "href": "posts/scrna-1/index.html#next-steps",
-    "title": "Hierarchical Mixture Model for Single Cell Sequencing I",
-    "section": "Next Steps",
-    "text": "Next Steps\nWhile I believe there is a lot of value to the explainble components of this model, we are going to focus on classification because it is much easier to quantitatively evaluate and can also solve a real pain point for the scRNA research community. I described the current painstaking process of annotating scRNA sequences that is extremely manual, heuristic, and time consuming. The reason for this current process is current classification methods do not generalize across experiments: batch effects throw off normal statistics based classification and clustering models.\nOur model provides a number of avenues to handle batch effects. Our hope is that it works out of the box, but we also have hierarchical levers we can pull to factor batch effects directly into our model structure. We plan to take 35 annotated datasets of mouse eye scRNA sequences, train our model on one of them, and evaluate it’s performance on the other 34. Our model’s performancew ill determine the next steps from there, but I’m extremely excited and optimistic based on our initial set of results."
+    "objectID": "posts/llms_replace_caulk_with_cream_cheese.html#companies-need-caulk-to-harden",
+    "href": "posts/llms_replace_caulk_with_cream_cheese.html#companies-need-caulk-to-harden",
+    "title": "LLMs Replace Caulk with Cream Cheese",
+    "section": "Companies Need Caulk to Harden",
+    "text": "Companies Need Caulk to Harden\nMy point here is not that LLMs are useless. Instead it’s that the applications that are the best fit for LLMs do not drive as much value as you expect because of there is inherent value in the process of a human performing the task.\nThat value might be in the adaptability of a human contact center agent to handle the never ending long-tail of edge cases, or the willingness to break from guidelines when common sense dictates. It may be in the process of an analyst accumulating a broad swath of domain manually digging through raw data that provides broader contexts to any insights and builds over time. It may be from a software engineer needing to actually read through the documentation of a core library in their production stack and eventually using that knowledge to make a tangential design decision.\nQuantitative metrics will not capture the loss of these processes immediately. The cheese fills the hole and over the long term will decay. It’s much easier to just do the job correctly the first time."
   }
 ]

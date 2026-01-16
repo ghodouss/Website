@@ -1,5 +1,5 @@
 ---
-title: I'm not a Good Enough Engineer to Code with LLMs 
+title: I'm Not a Good Enough Engineer to Code With LLMs 
 date: 2026-01-16
 categories: [Random, LLM]
 ---

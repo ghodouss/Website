@@ -1,6 +1,6 @@
 ---
-title: "About Kian"
-image: static/sturdystats.png 
+title: "Kian's Website"
+image: static/kian_and_blue.jpeg  
 about:
   template: jolla 
   image-shape: rectangle 

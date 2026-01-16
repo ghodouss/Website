@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/ai_coding_thoughts.html",
+      "/posts/less_reddit.html",
       "/posts/llms_replace_caulk_with_cream_cheese.html",
       "/posts/scrna-1/index.html",
       "/posts/state_of_ai_picture/index.html",

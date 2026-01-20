@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/ai_images.html",
       "/posts/ai_coding_thoughts.html",
       "/posts/less_reddit.html",
       "/posts/llms_replace_caulk_with_cream_cheese.html",

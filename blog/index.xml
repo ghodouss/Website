@@ -10,7 +10,24 @@
 <atom:link href="https://sturdystatistics.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kian Ghodoussi&#39;s Personal Website</description>
 <generator>quarto-1.6.32</generator>
-<lastBuildDate>Fri, 16 Jan 2026 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 20 Jan 2026 08:00:00 GMT</lastBuildDate>
+<item>
+  <title>I’m tired of AI Images</title>
+  <link>https://sturdystatistics.com/blog/posts/ai_images.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Not much more to it than that Websites and blogs were already shoehorn images into content as if they are a requirement to publish on the internet. TV ads and music increased their volume because 20 years ago a study came out that said more volume, more better. Some study showed more image more better. Maybe that is true. These AI images are taking it to an extreme, and are no longer even lightly tethered to reality.</p>
+
+
+
+ ]]></description>
+  <category>Random</category>
+  <guid>https://sturdystatistics.com/blog/posts/ai_images.html</guid>
+  <pubDate>Tue, 20 Jan 2026 08:00:00 GMT</pubDate>
+</item>
 <item>
   <title>I’m not a good enough engineer to code with LLMs</title>
   <link>https://sturdystatistics.com/blog/posts/ai_coding_thoughts.html</link>

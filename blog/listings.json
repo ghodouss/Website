@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/llm_data_order/index.html",
+      "/posts/scrna2/index.html",
       "/posts/ai_images.html",
       "/posts/ai_coding_thoughts.html",
       "/posts/less_reddit.html",
@@ -10,7 +12,8 @@
       "/posts/state_of_ai_picture/index.html",
       "/posts/santa_barbara_burrito_week_2025.html",
       "/posts/santa_barbara_sandwich_week_2025.html",
-      "/posts/santa_barbara_burger_week_2024.html"
+      "/posts/santa_barbara_burger_week_2024.html",
+      "/posts/ai_is_not_it.html"
     ]
   }
 ]

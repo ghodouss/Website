@@ -10,7 +10,35 @@
 <atom:link href="https://sturdystatistics.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kian Ghodoussi&#39;s Personal Website</description>
 <generator>quarto-1.6.32</generator>
-<lastBuildDate>Tue, 20 Jan 2026 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 21 Jan 2026 06:00:00 GMT</lastBuildDate>
+<item>
+  <title>SC-RNA Cell Type Classification 2</title>
+  <link>https://sturdystatistics.com/blog/posts/scrna2/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>So this problem turned out to be easier than we even thought. We initially needed more labels (150 per class) because the input data was log normalized - we assumed that it was float because of sampling. Our model is a Hierarchical Pitman-Yor Process thatdirectly models power-laws. The log-normalization essential broke our model statistics.</p>
+<p>After rectifying that preprocessing error, we were able to get perfect accuracy with only 20 labels of each class and 120 unsupervised labels of each class.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://sturdystatistics.com/blog/posts/scrna2/pred_confidence.png" class="img-fluid figure-img"></p>
+<figcaption>Distribution of our model confidences. Our models are well calibrated, Px = .95 means that 95% of the time x will be True. This was validated lined up with our near perfect f1 and roc_auc scores</figcaption>
+</figure>
+</div>
+<p>This problem is easy for our model because the ground truth data is to apply some for of PCA-esque dimensionality reduction + UMAP to embed it into 2 dimensions. A scientist will then explore and bulk label the clusters. Our classification model was built to distinguish between classes that are indistinguishable to PCA/UMAP style analysis in text. Remains to be seen if we can offer utitlity to this field beyond the current method.</p>
+<p>Some thoughts are exploring cross dataset generalization, dataset integration, etc. Essentially seeing if we can generalize to the point that we can remove any manual step in these annotations, because inspecting the clusters to apply ground truth labels is laborious.</p>
+<p>But it’s very cool that we have strong validation that our statistics and infrastructure generalize to rna type data relatively easily.</p>
+
+
+
+ ]]></description>
+  <category>Genomics</category>
+  <category>Bayesian Modeling</category>
+  <guid>https://sturdystatistics.com/blog/posts/scrna2/</guid>
+  <pubDate>Wed, 21 Jan 2026 06:00:00 GMT</pubDate>
+</item>
 <item>
   <title>I’m tired of AI Images</title>
   <link>https://sturdystatistics.com/blog/posts/ai_images.html</link>
@@ -26,7 +54,7 @@
  ]]></description>
   <category>Random</category>
   <guid>https://sturdystatistics.com/blog/posts/ai_images.html</guid>
-  <pubDate>Tue, 20 Jan 2026 08:00:00 GMT</pubDate>
+  <pubDate>Tue, 20 Jan 2026 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>I’m not a good enough engineer to code with LLMs</title>
@@ -48,7 +76,7 @@
   <category>Random</category>
   <category>LLM</category>
   <guid>https://sturdystatistics.com/blog/posts/ai_coding_thoughts.html</guid>
-  <pubDate>Fri, 16 Jan 2026 08:00:00 GMT</pubDate>
+  <pubDate>Fri, 16 Jan 2026 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Reddit Blocked Me</title>
@@ -69,7 +97,7 @@
  ]]></description>
   <category>Random</category>
   <guid>https://sturdystatistics.com/blog/posts/less_reddit.html</guid>
-  <pubDate>Thu, 15 Jan 2026 08:00:00 GMT</pubDate>
+  <pubDate>Thu, 15 Jan 2026 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>LLMs Replace Caulk with Cream Cheese</title>
@@ -111,7 +139,7 @@
   <category>LLMs</category>
   <category>Opinion</category>
   <guid>https://sturdystatistics.com/blog/posts/llms_replace_caulk_with_cream_cheese.html</guid>
-  <pubDate>Tue, 18 Nov 2025 08:00:00 GMT</pubDate>
+  <pubDate>Tue, 18 Nov 2025 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Hierarchical Mixture Model for Single Cell Sequencing I</title>
@@ -159,7 +187,7 @@
   <category>Genomics</category>
   <category>Bayesian Modeling</category>
   <guid>https://sturdystatistics.com/blog/posts/scrna-1/</guid>
-  <pubDate>Mon, 17 Nov 2025 08:00:00 GMT</pubDate>
+  <pubDate>Mon, 17 Nov 2025 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>State of the AI Industry in a Screenshot</title>
@@ -185,7 +213,7 @@
   <category>LLMs</category>
   <category>Opinion</category>
   <guid>https://sturdystatistics.com/blog/posts/state_of_ai_picture/</guid>
-  <pubDate>Sun, 16 Nov 2025 08:00:00 GMT</pubDate>
+  <pubDate>Sun, 16 Nov 2025 06:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Santa Barbara Burrito Week Prospective Itinerary</title>
@@ -453,7 +481,7 @@
  ]]></description>
   <category>Santa Barbara</category>
   <guid>https://sturdystatistics.com/blog/posts/santa_barbara_burrito_week_2025.html</guid>
-  <pubDate>Sat, 20 Sep 2025 07:00:00 GMT</pubDate>
+  <pubDate>Sat, 20 Sep 2025 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Santa Barbara Sandwich Week Prospective Itinerary</title>
@@ -579,7 +607,7 @@
  ]]></description>
   <category>Santa Barbara</category>
   <guid>https://sturdystatistics.com/blog/posts/santa_barbara_sandwich_week_2025.html</guid>
-  <pubDate>Wed, 25 Jun 2025 07:00:00 GMT</pubDate>
+  <pubDate>Wed, 25 Jun 2025 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>SB Burger Week Tiers</title>
@@ -759,7 +787,29 @@
  ]]></description>
   <category>Santa Barbara</category>
   <guid>https://sturdystatistics.com/blog/posts/santa_barbara_burger_week_2024.html</guid>
-  <pubDate>Mon, 23 Sep 2024 07:00:00 GMT</pubDate>
+  <pubDate>Mon, 23 Sep 2024 05:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Large Language Models do not work the way people think that they do (the result will be bad)</title>
+  <link>https://sturdystatistics.com/blog/posts/ai_is_not_it.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>A <a href="https://arxiv.org/abs/1710.08864">single pixel</a> can break neural image models. The same technology is being used to make value judgements. The scale of investment for the current generation of language models is stunning. The next generation is an order of magnitude larger. Money is being burned (literally, they are re-opening coal plants) with the goal of automating white-collar labor. It will not work.</p>
+<p>LLMs are a great fit for certain tasks. It is helpful as an adaptor for stack overflow examples to your current situation. I find them very helpful for working with plotting libraries. Students find it very helpful to avoid learning. They are excellent at convincing the elderly to make arbitrary bank transfers.</p>
+<p>The jump from GPT-3 to GPT-3.5 was by scaling beyond the internet with human labellers. Given a question and multiple LLM generated answers, the labellers selected the best ones. Best did not mean true. Best was the most convincing.</p>
+<p>And thus will be born the world’s most expensive and convincing <a href="https://bigthink.com/the-past/mechanical-turk/">mechanical turk</a>.</p>
+<p>–</p>
+<p>Repost from one of my previous blog iterations before I landed on this current deploy setup.</p>
+
+
+
+ ]]></description>
+  <category>LLMs</category>
+  <guid>https://sturdystatistics.com/blog/posts/ai_is_not_it.html</guid>
+  <pubDate>Sun, 23 Jun 2024 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

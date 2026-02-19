@@ -82,6 +82,8 @@ I will keep you posted.
 
 ## Other SB
 
+| Restaurant | Description | Hours | Location | Vibe | Excitement |
+|---|---|---|---|---|---|
 | [Mesa Burger](https://www.independent.com/2026/02/18/go-beast-mode-for-santa-barbara-burger-week-2026/#mesa) | Surf & Turf (beef+shrimp), Birria Smash, or Veggie (portobello+hummus) | ? | [SB](https://sbburgerweekmap.com/#mesa-burger) | 7 | 9 |
 | [Dave's Dogs](https://www.independent.com/2026/02/18/go-beast-mode-for-santa-barbara-burger-week-2026/#dave) | Backyard smashburger w/ dill pickle slaw, "dirty" sauce | ? | [SB](https://sbburgerweekmap.com/#dave-s-dogs-grill) | 6 | 7 |
 | [Yellow Belly](https://www.independent.com/2026/02/18/go-beast-mode-for-santa-barbara-burger-week-2026/#yellow) | Fold In the Cheeseburger: ¼lb patty, bacon, homemade pickles, Thousand Island+mustard blend | ? | [SB](https://sbburgerweekmap.com/#yellow-belly-tap) | 8 | 7 |

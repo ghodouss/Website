@@ -1,0 +1,72 @@
+\documentclass{standalone}
+\input{style.tex}
+\begin{document}
+\pagecolor{impactwhite}
+\begin{tikzpicture}[x=1in,y=1in]
+\path[use as bounding box] (0,0) rectangle (14,9);
+\path[fill=impactwhite] (0,0) rectangle (14,9);
+
+\node[anchor=west,impact kicker] at (.75,8.51) {01 / DOWNTOWN STARTING POINT};
+\node[anchor=west,font=\fontsize{33}{36}\selectfont\bfseries,text=impactink] at (.73,8.03)
+  {State Street sales were falling before COVID};
+\node[anchor=west,font=\normalsize,text=impactmuted] at (.76,7.61)
+  {Inflation-adjusted sales fell about 23\% from 2016 to 2019, before the pedestrian promenade.};
+\draw[impactgrid,line width=.8pt] (.76,7.29)--(13.24,7.29);
+
+\node[anchor=west,font=\small\bfseries,text=impactink] at (.83,6.96)
+  {Annual sales by downtown subarea, 2016--2021};
+\node[anchor=east,font=\scriptsize,text=impactmuted] at (13.17,6.96)
+  {Millions of dollars \textbullet\ constant 2021 dollars};
+
+\begin{axis}[
+  at={(1.05in,2.55in)},anchor=south west,
+  width=10.35in,height=4.15in,scale only axis,
+  xmin=2015.9,xmax=2021.1,ymin=0,ymax=350,
+  xtick={2016,2017,2018,2019,2020,2021},
+  xticklabels={2016,2017,2018,2019,2020,2021},
+  ytick={0,50,100,150,200,250,300,350},
+  yticklabels={\$0,\$50,\$100,\$150,\$200,\$250,\$300,\$350},
+  tick label style={font=\scriptsize,text=impactmuted},
+  tick style={draw=none},axis line style={draw=none},
+  ymajorgrids=true,grid style={impactgrid,line width=.6pt},
+  clip=false,
+]
+\addplot[impactrust,line width=2.4pt,mark=*,mark size=2.7pt]
+  table[x=year,y expr=\thisrow{state_sales}/1000000,col sep=comma]
+  {data/state_street_sales_2016_2021.csv};
+\addplot[impactblue,line width=1.8pt,mark=*,mark size=2pt]
+  table[x=year,y expr=\thisrow{west_sales}/1000000,col sep=comma]
+  {data/state_street_sales_2016_2021.csv};
+\addplot[impactgray,line width=1.8pt,mark=*,mark size=2pt]
+  table[x=year,y expr=\thisrow{east_sales}/1000000,col sep=comma]
+  {data/state_street_sales_2016_2021.csv};
+
+\draw[impactmuted,densely dashed,line width=.7pt]
+  (axis cs:2019,0)--(axis cs:2019,325);
+\node[anchor=south,font=\scriptsize,text=impactmuted] at (axis cs:2019,327) {2019};
+\node[anchor=south west,font=\small\bfseries,text=impactrust]
+  at (axis cs:2016,310) {\$303m};
+\node[anchor=south west,font=\small\bfseries,text=impactrust]
+  at (axis cs:2019,242) {\$234m};
+\node[anchor=west,font=\small\bfseries,text=impactrust]
+  at (axis cs:2021.12,209.22) {State Street};
+\node[anchor=west,font=\scriptsize,text=impactblue]
+  at (axis cs:2021.12,79.94) {West of State};
+\node[anchor=west,font=\scriptsize,text=impactmuted]
+  at (axis cs:2021.12,32.55) {East of State};
+\end{axis}
+
+\node[anchor=west,font=\normalsize\bfseries,text=impactrust] at (2.05,4.89)
+  {2016--19: about \$69m less in annual sales};
+\node[anchor=west,font=\small,text=impactmuted] at (2.05,4.54)
+  {A decline already underway before COVID and pedestrianization};
+
+\draw[impactgrid,line width=.8pt] (.76,1.98)--(13.24,1.98);
+\node[anchor=west,font=\scriptsize,text=impactink] at (.82,1.63)
+  {Sales rebounded in 2021. These historical series do not isolate the effects of COVID or pedestrianization.};
+\node[anchor=west,font=\scriptsize,text=impactmuted] at (.82,1.19)
+  {Source: State Street Master Plan Appendices, Figure 10; CDTFA (2022), Strategic Economics (2023).};
+\node[anchor=west,font=\tiny,text=impactmuted] at (.82,.88)
+  {Approximate totals reconstructed from published establishment counts and rounded average sales: Figures 9, 12, 15, 18; PDF pp.\ 110--114.};
+\end{tikzpicture}
+\end{document}

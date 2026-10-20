@@ -1,0 +1,119 @@
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{backgrounds}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=newest}
+
+
+\pgfmathdeclarefunction{gauss}{3}{%
+  \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+\def\axisdefaultwidth{4in}
+\def\axisdefaultheight{6.28cm}
+\pgfplotsset{every axis/.style={scale only axis}}
+
+
+\definecolor{orange}{HTML}{FF7F00}
+
+\definecolor{color1}{HTML}{d60000} % red
+\definecolor{color2}{HTML}{8c3bff} % purple
+\definecolor{color3}{HTML}{018700} % green
+\definecolor{color4}{HTML}{00acc6} % cyan
+\definecolor{color5}{HTML}{97ff00} % lime
+\definecolor{color6}{HTML}{ff7ed1} % pink
+\definecolor{color7}{HTML}{6b004f} % brick red
+\definecolor{color8}{HTML}{ffa52f} % orange
+\definecolor{color9}{HTML}{573b00} % brown
+\definecolor{color10}{HTML}{005659} % marseilles
+\definecolor{color11}{HTML}{0000dd} % purple-blue
+\definecolor{color12}{HTML}{00fdcf} % aqua
+\definecolor{color13}{HTML}{a17569} % brown
+\definecolor{color14}{HTML}{bcb6ff} % lavender
+\definecolor{color15}{HTML}{95b577} % sage
+\definecolor{color16}{HTML}{191970} % midnight blue
+\definecolor{color17}{HTML}{daa520} % goldenrod
+\definecolor{color18}{HTML}{b8860b} % dark goldenrod
+
+\colorlet{nu-red}{color1}
+\colorlet{nu-green}{color3}
+\colorlet{nu-blue}{color16}
+\colorlet{nu-gold}{color17}
+\colorlet{nu-gray}{black!50!white}
+
+
+\pgfplotsset{
+  %
+  every axis/.append style={%
+    %% more prominent axes
+    {thick}, 
+    tick style={thick,black},
+    enlargelimits=false,
+    axis on top,
+  },
+  %
+  x-year/.style={%
+    %% remove thousands separator for years
+    x tick label style={/pgf/number format/1000 sep=},
+    xlabel=Year,
+  },
+  %
+  top-legend/.style={%
+    %% legend at bottom
+    legend style={at={(0.5,1.1)},
+      anchor=south,legend columns=-1},
+  },
+  %
+  bottom-legend/.style={%
+    %% legend at bottom
+    legend style={at={(0.5,-0.15)},
+      anchor=north,legend columns=-1},
+  },
+  %
+  right-legend/.style={%
+    %% legend at right
+    legend style={at={(1.05,0.5)},
+      anchor=west,legend columns=1},
+  },
+  %
+  fancy-legend/.style = {
+    % legend
+    legend image code/.code={%
+        \draw[#1, draw=none, fill=#1] (0cm,-0.1cm) rectangle (0.2cm,0.1cm);},
+    legend style={draw=none, fill=none},
+  },
+  %
+  prob-plot/.style={%
+    ymin=0.0,
+    enlarge y limits={rel=0.05,upper}
+  },
+  %
+  y-grid/.style={%
+    % grid
+    yminorgrids = true,
+    ymajorgrids = true,
+    % style
+    minor grid style = {line width=.5pt, draw=gray!25},
+    major grid style = {line width=.5pt, draw=gray},
+  },
+   %
+  despine/.style={%
+    % 
+    hide y axis,
+    axis lines*=left, 
+    tick align = outside,
+  },
+  %
+  ci-bar/.style={
+    line cap=round,
+    draw=none,
+    mark=none,
+    error bars/.cd,
+    y dir=both,
+    y explicit,
+    error mark=none
+  },
+  %
+}

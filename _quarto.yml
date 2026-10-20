@@ -4,6 +4,7 @@ project:
 
 resources:
   - "static/fonts/**"
+  - "static/sturdystats.png"
 
 website:
   title: "Kian.WTF" 

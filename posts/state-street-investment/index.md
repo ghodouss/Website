@@ -1,5 +1,5 @@
 ---
-title: "96 Million Dollars is a Bargain"
+title: "Investing in the Community"
 author: Kian Ghodoussi
 date: 2026-10-20
 categories: [Santa Barbara]
